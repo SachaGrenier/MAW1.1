@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8A32DC57-43CF-4E91-80B8-2E3F684E1B9A}</ProjectGuid>
+    <ProjectGuid>{38E710E3-40E1-4EAC-A7D7-B220CAA1C361}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>FileFinder</RootNamespace>
-    <AssemblyName>FileFinder</AssemblyName>
+    <RootNamespace>FilesFinder</RootNamespace>
+    <AssemblyName>FilesFinder</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
