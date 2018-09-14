@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FileFinder.Properties
+namespace FilesFinder.Properties
 {
 
 

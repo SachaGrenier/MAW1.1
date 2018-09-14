@@ -1,17 +1,15 @@
-﻿
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Forms;
-using System.IO;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using ProjetRechercheTest.Model;
+using FilesFinder.Model;
+using System.IO;
 
-namespace ProjetRechercheTest
+namespace FilesFinder
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
@@ -22,6 +20,7 @@ namespace ProjetRechercheTest
         {
             InitializeComponent();
         }
+
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -65,16 +64,13 @@ namespace ProjetRechercheTest
 
 
         }
+
         List<FileDetails> listFileSearch = new List<FileDetails>();
         List<FileDetails> listFile = new List<FileDetails>();
-
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-
             listFileSearch.Clear();
-
-
-
         }
+
     }
 }
