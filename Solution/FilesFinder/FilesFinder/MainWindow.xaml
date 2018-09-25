@@ -5,42 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FilesFinder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel Orientation="Horizontal" Background="#33adff" Margin="0,0,0,344">
-            <Label Margin="10,0,0,0" Height="23" Name="Label1">
-                Current File:
-            </Label>
-            <Label Margin="5,197,0,-147" Height="25" x:Name="FileNameLabel" Width="54" />
+        Title="FileFinder" Height="450" Width="800">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="97*"/>
+			<ColumnDefinition Width="695*"/>
+		</Grid.ColumnDefinitions>
 
-            <Button Margin="5,18,0,19" Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click">
-                <!--  -->
-                Browse folder
-            </Button>
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="60,18,0,0"
+		<StackPanel Orientation="Horizontal" Background="#33adff" Margin="0,0,0,344" Grid.ColumnSpan="2">
+			<Label Margin="10,0,0,0" Height="23" Name="Label1">
+				Current File:
+			</Label>
+			<Label Margin="5,197,0,-147" Height="25" x:Name="FileNameLabel" Width="54" />
+			<Button Margin="5,18,0,19" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder">
+				<!--  -->
+			</Button>
+			<TextBlock Height="23" HorizontalAlignment="Left" Margin="60,18,0,0"
                 x:Name="textBlock1" Text="Search Name"
                 VerticalAlignment="Top" Width="134" />
-            <TextBox Height="20" HorizontalAlignment="Left" Margin="208,20,0,0"
+			<TextBox Height="20" HorizontalAlignment="Left" Margin="208,20,0,0"
                 x:Name="txtNameToSearch" TextChanged="txtNameToSearch_TextChanged"
                 VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.378,0.593" />
-        </StackPanel>
+			<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="-300,0,0,0">
+				<RadioButton GroupName="Filter" Content="Images" IsChecked="False"/>
+				<RadioButton GroupName="Filter" Content="Audio" IsChecked="False" />
+				<RadioButton GroupName="Filter" Content="Autres" IsChecked="False" />
+				<RadioButton GroupName="Filter" Content="Documents" IsChecked="False"/>
+				<RadioButton GroupName="Filter" Content="Vidéos" IsChecked="False"/>
+			</StackPanel>
+		</StackPanel>
 
-        <ScrollViewer Grid.Column="0" Margin="0,80,0,0">
-            <ItemsControl Name="FileList" ItemsSource="{Binding FileList}" Height="279">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
-                            <StackPanel Orientation="Horizontal">
+		<ScrollViewer Grid.Column="0" Margin="0,80,0,0" Grid.ColumnSpan="2">
+			<ItemsControl Name="FileList" ItemsSource="{Binding FileList}" Height="279">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
+							<StackPanel Orientation="Horizontal">
 
-                                <!--name, type and size-->
-                                <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </Grid>
+								<!--name, type and size-->
+								<StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
+									<TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
+								</StackPanel>
+							</StackPanel>
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+	</Grid>
 </Window>
