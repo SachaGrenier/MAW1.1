@@ -7,7 +7,8 @@ using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using FilesFinder.Model;
 using System.IO;
-
+using System.Windows.Media.Imaging;
+using System.Security.Principal;
 
 namespace FilesFinder
 {
@@ -20,9 +21,23 @@ namespace FilesFinder
         {
             InitializeComponent();
         }
-   
+        public string GetTags(string path)
+        {
+            var fs = File.GetAccessControl(path);
 
-        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+            var sid = fs.GetOwner(typeof(SecurityIdentifier));
+           
+            var ntAccount = sid.Translate(typeof(NTAccount));
+
+            //découpe le nom avant et après le character "_"
+            var name = ntAccount.Value.Split('\\');
+
+            return name[1];
+
+        }
+
+
+            private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff", ".doc", ".txt", ".docx" };
 
@@ -33,17 +48,49 @@ namespace FilesFinder
                 //defini le dossier choisi
                 DirectoryInfo d = new DirectoryInfo(dlg.SelectedPath);
 
-             
 
                 //récupère les données de chaque fichier
                 var files = Directory.GetFiles(dlg.SelectedPath).Where(s => supportedExtensions.Contains(System.IO.Path.GetExtension(s).ToLower()));
 
                 ObservableCollection<FileDetails> allFile = new ObservableCollection<FileDetails>();
-                var shellAppType = Type.GetTypeFromProgID("Shell.Application");
-                dynamic shellApp = Activator.CreateInstance(shellAppType);
-                var folder = shellApp.NameSpace(files);
-                System.IO.DriveInfo di = new System.IO.DriveInfo(@"C:\");
-                System.IO.DirectoryInfo dirInfo = di.RootDirectory;
+
+
+                System.IO.Directory.SetCurrentDirectory(dlg.SelectedPath);
+
+                string currentDirName = System.IO.Directory.GetCurrentDirectory();
+                string[] filesMeta = System.IO.Directory.GetFiles(currentDirName, "*.*");
+
+
+                foreach (string f in filesMeta)
+                {
+
+                    System.IO.FileInfo fi = null;
+
+                    try
+                    {
+                        fi = new System.IO.FileInfo(f);
+
+
+                    }
+
+                    catch
+                    {
+                        continue;
+                    }
+
+                    //crée un objet contenant les details de l'image
+                    FileDetails id = new FileDetails()
+                    {
+                        filename = fi.Name,
+                        path = fi.ToString(),
+                        author = GetTags(fi.ToString())
+
+                };
+                    allFile.Add(id);
+
+
+                }
+
 
                 //parcours le tableau de données
                 foreach (var file in files)
@@ -59,23 +106,17 @@ namespace FilesFinder
 
                     FileDetails id = new FileDetails()
                     {
-                        path = file.ToString(),
+                        
                         filename = System.IO.Path.GetFileName(file.ToString())
                     };
 
                     var FileName = System.IO.Path.GetFullPath(file.ToString());
 
-                    //crée un objet avec les paramètres voulue
-                    FileDetails Meta = new FileDetails()
-                    {
-                       
-
-                    };
-
-
-                    allFile.Add(id);
 
                 }
+
+                RetrieveList.myList = allFile;
+
                 //Remplie le tableau de donnée avec les fichiers trouvé
                 FileList.ItemsSource = allFile;
 
@@ -83,6 +124,15 @@ namespace FilesFinder
 
 
         }
+
+        //paramètre statique pour garder une liste d'image, une date de prise de vue et une date de modification en memoire
+        public class RetrieveList
+        {
+            public static ObservableCollection<FileDetails> myList { get; set; }
+            public static string DateList { get; set; }
+            public static string DateModificate { get; set; }
+        }
+
 
         List<FileDetails> listFileSearch = new List<FileDetails>();
 
@@ -92,6 +142,13 @@ namespace FilesFinder
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             listFileSearch.Clear();
+
+
+            //   var shellAppType = Type.GetTypeFromProgID("Shell.Application");
+            // dynamic shellApp = Activator.CreateInstance(shellAppType);
+            //var folder = shellApp.NameSpace(files);
+
+            listFile = RetrieveList.myList.ToList();
 
             //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
             string txtOrig = txtNameToSearch.Text;
@@ -104,22 +161,40 @@ namespace FilesFinder
 
             //requete pour filtrer les fichier
             var fileFiltered = from file in listFile
-                                  let enamefile = file.filename
+                               let enamefile = file.filename
 
-                                  //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
-                                  where
-                                            enamefile.StartsWith(lower)
-                                         || enamefile.StartsWith(upper)
-                                         || enamefile.Contains(txtOrig)
+                               //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                               where
+                                         enamefile.StartsWith(lower)
+                                      || enamefile.StartsWith(upper)
+                                      || enamefile.Contains(txtOrig)
 
 
-                                  select file;
+                               select file;
 
             //ajoute les images filtré à la liste listeImageSearch
             listFileSearch.AddRange(fileFiltered);
 
-           
-            FileList.ItemsSource = listFileSearch.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
+            var fileauthorFiltered = from file in listFile
+                               let authorfile = file.author
+
+                               //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                               where
+                                         authorfile.StartsWith(lower)
+                                      || authorfile.StartsWith(upper)
+                                      || authorfile.Contains(txtOrig)
+
+
+                               select file;
+
+            //ajoute les images filtré à la liste listeImageSearch
+            listFileSearch.AddRange(fileFiltered);
+
+            //enleve les doublon du au deux condition where          
+            IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
+
+
+            FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
         }
 
     }
