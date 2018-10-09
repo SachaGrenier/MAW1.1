@@ -7,15 +7,18 @@ using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using FilesFinder.Model;
 using System.IO;
+using Microsoft.Office.Interop.Word;
 using System.Windows.Media.Imaging;
 using System.Security.Principal;
+using Application = Microsoft.Office.Interop.Word.Application;
+using System.Text;
 
 namespace FilesFinder
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         public MainWindow()
         {
@@ -26,7 +29,7 @@ namespace FilesFinder
             var fs = File.GetAccessControl(path);
 
             var sid = fs.GetOwner(typeof(SecurityIdentifier));
-           
+
             var ntAccount = sid.Translate(typeof(NTAccount));
 
             //découpe le nom avant et après le character "_"
@@ -37,11 +40,31 @@ namespace FilesFinder
         }
 
 
-            private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        public string GetWord(string path)
+        {
+            StringBuilder text = new StringBuilder();
+            Application app = new Application();
+            app.Visible = false;
+            Document doc = app.Documents.Open(path);
+            for (int i = 0; i < doc.Paragraphs.Count; i++)
+            {
+                text.Append(" \r\n " + doc.Paragraphs[i + 1].Range.Text.ToString());
+            }
+
+            doc.Close(false);
+            app.Quit(false);          
+            return text.ToString();
+
+
+        }
+
+
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff", ".doc", ".txt", ".docx", ".xlsx" };
 
             FolderBrowserDialog dlg = new FolderBrowserDialog();
+
             //ouvre l'exlporateur de fichier
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -85,7 +108,8 @@ namespace FilesFinder
                         path = fi.ToString(),
                         author = GetTags(fi.ToString())
 
-                };
+
+                    };
                     allFile.Add(id);
 
 
@@ -106,7 +130,7 @@ namespace FilesFinder
 
                     FileDetails id = new FileDetails()
                     {
-                        
+
                         filename = System.IO.Path.GetFileName(file.ToString())
                     };
 
@@ -114,6 +138,7 @@ namespace FilesFinder
 
 
                 }
+
 
                 RetrieveList.myList = allFile;
 
@@ -131,6 +156,7 @@ namespace FilesFinder
             public static ObservableCollection<FileDetails> myList { get; set; }
             public static string DateList { get; set; }
             public static string DateModificate { get; set; }
+            public static ObservableCollection<WordDetails> textWord { get; set; }
         }
 
 
@@ -139,13 +165,42 @@ namespace FilesFinder
 
         List<FileDetails> listFile = new List<FileDetails>();
 
+        ObservableCollection<WordDetails> wordFile = new ObservableCollection<WordDetails>();
+
+
+
+
+
+
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             listFileSearch.Clear();
 
-
-
             listFile = RetrieveList.myList.ToList();
+
+            foreach (var list in listFile)
+            {
+                if (list.filename.ToString().Contains(".docx"))
+                {
+
+                    //crée un objet contenant les details de l'image
+                    WordDetails id = new WordDetails()
+                    {
+
+                        content = GetWord(list.path.ToString())
+
+
+                    };
+                    wordFile.Add(id);
+
+
+
+                }
+            }
+
+            RetrieveList.textWord = wordFile;
+
+
 
             //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
             string txtOrig = txtNameToSearch.Text;
@@ -176,17 +231,38 @@ namespace FilesFinder
                                      let authorfile = file.author
 
                                      where file.author != null
-            //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
-                               where
-                                         authorfile.StartsWith(lower)
-                                      || authorfile.StartsWith(upper)
-                                      || authorfile.Contains(txtOrig)
+                                     //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                     where
+                                               authorfile.StartsWith(lower)
+                                            || authorfile.StartsWith(upper)
+                                            || authorfile.Contains(txtOrig)
 
 
-                               select file;
+                                     select file;
+
 
             //ajoute les images filtré à la liste listeImageSearch
             listFileSearch.AddRange(fileauthorFiltered);
+
+
+            var WordFiltered = from file in wordFile
+                               let wordfile = file.content
+
+                                     where file.content != null
+                                     //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                     where
+                                               wordfile.StartsWith(lower)
+                                            || wordfile.StartsWith(upper)
+                                            || wordfile.Contains(txtOrig)
+
+
+                                     select file;
+
+
+            //ajoute les images filtré à la liste listeImageSearch
+            wordFile.ToList().AddRange(WordFiltered);
+
+
 
             //enleve les doublon du au deux condition where          
             IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
