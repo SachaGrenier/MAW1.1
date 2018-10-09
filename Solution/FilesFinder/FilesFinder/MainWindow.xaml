@@ -44,7 +44,8 @@
                                                                
                                 <!--name, type and size-->
 								<StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
-									<TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
+                                    <TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
+                                    <TextBlock Name="WordContent" Margin="1" Foreground="#FF787878" Text="{Binding name}"/>
 								</StackPanel>
 							</StackPanel>
 						</Border>
