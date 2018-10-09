@@ -39,7 +39,7 @@ namespace FilesFinder
 
             private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff", ".doc", ".txt", ".docx" };
+            string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff", ".doc", ".txt", ".docx", ".xlsx" };
 
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             //ouvre l'exlporateur de fichier
@@ -144,9 +144,6 @@ namespace FilesFinder
             listFileSearch.Clear();
 
 
-            //   var shellAppType = Type.GetTypeFromProgID("Shell.Application");
-            // dynamic shellApp = Activator.CreateInstance(shellAppType);
-            //var folder = shellApp.NameSpace(files);
 
             listFile = RetrieveList.myList.ToList();
 
@@ -176,9 +173,10 @@ namespace FilesFinder
             listFileSearch.AddRange(fileFiltered);
 
             var fileauthorFiltered = from file in listFile
-                               let authorfile = file.author
+                                     let authorfile = file.author
 
-                               //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                     where file.author != null
+            //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
                                where
                                          authorfile.StartsWith(lower)
                                       || authorfile.StartsWith(upper)
@@ -188,7 +186,7 @@ namespace FilesFinder
                                select file;
 
             //ajoute les images filtré à la liste listeImageSearch
-            listFileSearch.AddRange(fileFiltered);
+            listFileSearch.AddRange(fileauthorFiltered);
 
             //enleve les doublon du au deux condition where          
             IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();

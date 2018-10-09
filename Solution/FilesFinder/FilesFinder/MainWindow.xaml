@@ -35,14 +35,14 @@
 			</StackPanel>
 		</StackPanel>
 
-		<ScrollViewer Grid.Column="0" Margin="0,80,0,0" Grid.ColumnSpan="2">
-			<ItemsControl Name="FileList" ItemsSource="{Binding FileList}" Height="279">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="0" Margin="0,80,0,0" Grid.ColumnSpan="2">
+            <ItemsControl  Name="FileList" ItemsSource="{Binding FileList}" Height="279" >
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
-							<StackPanel Orientation="Horizontal">
-
-								<!--name, type and size-->
+                            <StackPanel Orientation="Horizontal">
+                                                               
+                                <!--name, type and size-->
 								<StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
 									<TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
 								</StackPanel>
