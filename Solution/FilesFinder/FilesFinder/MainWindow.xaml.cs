@@ -92,8 +92,6 @@ namespace FilesFinder
                     try
                     {
                         fi = new System.IO.FileInfo(f);
-
-
                     }
 
                     catch
@@ -166,18 +164,21 @@ namespace FilesFinder
 
         List<WordDetails> wordFile = new List<WordDetails>();
 
+        List<WordDetails> wordFileSearch = new List<WordDetails>();
+
 
 
 
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             listFileSearch.Clear();
+            wordFileSearch.Clear();
             wordFile.Clear();
 
 
             listFile = RetrieveList.myList.ToList();
 
-           /* foreach (var list in listFile)
+            foreach (var list in listFile)
             {
                 if (list.filename.ToString().Contains(".docx"))
                 {
@@ -193,7 +194,7 @@ namespace FilesFinder
                     wordFile.Add(id);
 
                 }
-            }*/
+            }
          
     
 
@@ -223,7 +224,7 @@ namespace FilesFinder
 
                                select file;
 
-            //ajoute les images filtré à la liste listeImageSearch
+            //ajoute les fichiers filtré à la liste fileauthorFiltered
             listFileSearch.AddRange(fileFiltered);
 
             var fileauthorFiltered = from file in listFile
@@ -239,14 +240,13 @@ namespace FilesFinder
 
                                      select file;
 
-
-            //ajoute les images filtré à la liste listeImageSearch
+            //ajoute les fichiers filtré à la liste listFileSearch
             listFileSearch.AddRange(fileauthorFiltered);
 
+            
 
 
-
-            var WordFiltered = from file in wordFile
+            /*var WordFiltered = from file in wordFile
                                let wordfile = file.content
 
                                where file.content != null
@@ -260,19 +260,19 @@ namespace FilesFinder
                                select file;
 
 
-            //ajoute les fichier word filtré à la liste listeImageSearch
-            wordFile.AddRange(WordFiltered);
+            //ajoute les fichier word filtré à la liste wordFileSearch
+            wordFileSearch.AddRange(WordFiltered);*/
 
 
 
             //enleve les doublon du au deux condition where          
-            IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
+           IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
 
-            //IEnumerable<WordDetails> sansDoublon2 = wordFile.Distinct();
+           // IEnumerable<WordDetails> sansDoublon2 = wordFileSearch.Distinct();
 
-           // FileList.ItemsSource = sansDoublon2.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
+            FileList.ItemsSource = sansDoublon.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
 
-           FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
+           //FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
         }
 
     }
