@@ -9,7 +9,11 @@ namespace FilesFinder.Model
   public  class FileDetails
     {
         public string name { get; set; }
+
         public string filename { get; set; }
-        public string Path { get; set; }
+
+        public string author { get; set; }
+
+        public string path { get; set; }
     }
 }
