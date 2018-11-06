@@ -13,6 +13,7 @@ using System.Security.Principal;
 using Application = Microsoft.Office.Interop.Word.Application;
 using System.Text;
 
+
 namespace FilesFinder
 {
     /// <summary>
@@ -148,7 +149,7 @@ namespace FilesFinder
 
         }
 
-        //paramètre statique pour garder une liste d'image, une date de prise de vue et une date de modification en memoire
+        //paramètre statique pour garder une liste de fichiers en memoire
         public class RetrieveList
         {
             public static ObservableCollection<FileDetails> myList { get; set; }
@@ -208,9 +209,6 @@ namespace FilesFinder
             string lower = txtOrig.ToLower();
 
 
-
-
-
             //requete pour filtrer les fichier
             var fileFiltered = from file in listFile
                                let enamefile = file.filename
@@ -246,7 +244,7 @@ namespace FilesFinder
             
 
 
-            /*var WordFiltered = from file in wordFile
+            var WordFiltered = from file in wordFile
                                let wordfile = file.content
 
                                where file.content != null
@@ -261,18 +259,18 @@ namespace FilesFinder
 
 
             //ajoute les fichier word filtré à la liste wordFileSearch
-            wordFileSearch.AddRange(WordFiltered);*/
+            wordFileSearch.AddRange(WordFiltered);
 
 
 
             //enleve les doublon du au deux condition where          
-           IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
+           //IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
 
-           // IEnumerable<WordDetails> sansDoublon2 = wordFileSearch.Distinct();
+            IEnumerable<WordDetails> sansDoublon2 = wordFileSearch.Distinct();
 
-            FileList.ItemsSource = sansDoublon.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
+            FileList.ItemsSource = sansDoublon2.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
 
-           //FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
+         //  FileList.ItemsSource = sansDoublon2.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
         }
 
     }
