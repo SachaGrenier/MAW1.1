@@ -266,9 +266,9 @@ namespace FilesFinder
             //enleve les doublon du au deux condition where          
            //IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
 
-            IEnumerable<WordDetails> sansDoublon2 = wordFileSearch.Distinct();
+            IEnumerable<WordDetails> sansDoublonWord = wordFileSearch.Distinct();
 
-            FileList.ItemsSource = sansDoublon2.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
+            FileList.ItemsSource = sansDoublonWord.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
 
          //  FileList.ItemsSource = sansDoublon2.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
         }
