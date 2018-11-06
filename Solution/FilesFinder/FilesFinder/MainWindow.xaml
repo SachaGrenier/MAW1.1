@@ -6,52 +6,77 @@
         xmlns:local="clr-namespace:FilesFinder"
         mc:Ignorable="d"
         Title="FileFinder" Height="450" Width="800">
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="97*"/>
-			<ColumnDefinition Width="695*"/>
-		</Grid.ColumnDefinitions>
+    <Grid Height="Auto" Width="Auto">
+        <Grid Height="80" Width="Auto" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" Background="#33adff" Margin="0,0,0,0" Grid.ColumnSpan="3" Height="Auto" >
+                <Label Margin="10,0,0,0" Height="23" Name="Label1">
+                    Current File:
+                </Label>
+                <Button Margin="5,32,0,18" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder" RenderTransformOrigin="1.237,0.921">
+                    <!--  -->
+                </Button>
+                <TextBox HorizontalAlignment="Right" Margin="30,10,0,0"
+                x:Name="txtNameToSearch" TextChanged="txtNameToSearch_TextChanged" Width="200" Height="30"  RenderTransformOrigin="-0.657,0.25" />
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="30,39,0,18">
+                    <RadioButton GroupName="Filter" Content="Images" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Audio" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Autres" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Documents" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Vidéos" IsChecked="False" Checked="RadioButton_Checked"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="0" Margin="0,10,0,0" VerticalContentAlignment="Stretch" Grid.ColumnSpan="6" Height="330" VerticalAlignment="Bottom">
+        <Grid Height="330" Width="Auto" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
 
-		<StackPanel Orientation="Horizontal" Background="#33adff" Margin="0,0,0,344" Grid.ColumnSpan="2">
-			<Label Margin="10,0,0,0" Height="23" Name="Label1">
-				Current File:
-			</Label>
-			<Label Margin="5,197,0,-147" Height="25" x:Name="FileNameLabel" Width="54" />
-			<Button Margin="5,18,0,19" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder">
-				<!--  -->
-			</Button>
-			<TextBlock Height="23" HorizontalAlignment="Left" Margin="60,18,0,0"
-                x:Name="textBlock1" Text="Search Name"
-                VerticalAlignment="Top" Width="134" />
-			<TextBox Height="20" HorizontalAlignment="Left" Margin="208,20,0,0"
-                x:Name="txtNameToSearch" TextChanged="txtNameToSearch_TextChanged"
-                VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.5,0.5" />
-			<StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="-300,0,0,0">
-				<RadioButton GroupName="Filter" Content="Images" IsChecked="False"/>
-				<RadioButton GroupName="Filter" Content="Audio" IsChecked="False" />
-				<RadioButton GroupName="Filter" Content="Autres" IsChecked="False" />
-				<RadioButton GroupName="Filter" Content="Documents" IsChecked="False" Margin="0,0,0,58" Width="80"/>
-				<RadioButton GroupName="Filter" Content="Vidéos" IsChecked="False" Margin="0,0,0,58"/>
-			</StackPanel>
-		</StackPanel>
 
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="0" Margin="0,80,0,0" Grid.ColumnSpan="2">
-            <ItemsControl  Name="FileList" ItemsSource="{Binding FileList}" Height="279" >
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                                               
-                                <!--name, type and size-->
-								<StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
-                                    <TextBlock Name="WordContent" Margin="1" Foreground="#FF787878" Text="{Binding name}"/>
-								</StackPanel>
-							</StackPanel>
-						</Border>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</ScrollViewer>
-	</Grid>
+
+                <ColumnDefinition Width="0.1*" SharedSizeGroup="FileName"/>
+
+
+                <ColumnDefinition Width="0.1*" SharedSizeGroup="FileSize"/>
+
+
+                <ColumnDefinition Width="0.1*" SharedSizeGroup="FileAuthor"/>
+
+
+                <ColumnDefinition Width="0.1*" SharedSizeGroup="CreationDate"/>
+                
+                <ColumnDefinition Width="0.1*" SharedSizeGroup="ModificationDate"/>
+
+
+                <ColumnDefinition Width="0.1*" SharedSizeGroup="doyouknowdawe"/>
+
+           
+
+
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+                <ItemsControl  Name="FileList" ItemsSource="{Binding FileList}" Height="314" ScrollViewer.CanContentScroll="True" MaxHeight="314" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <!--name, type and size-->
+                                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center" >
+                                        <TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
+                                        <TextBlock Name="WordContent" Margin="1" Foreground="#FF787878" Text="{Binding name}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+          
+        </Grid>
+        </ScrollViewer>
+
+    </Grid>
+
 </Window>

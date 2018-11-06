@@ -20,6 +20,15 @@ namespace FilesFinder
     /// </summary>
     public partial class MainWindow : System.Windows.Window
     {
+        //sets reference for filter
+        private string Filter = null;
+
+        //lists of extentions accepted when filtered
+        List<string> Extentions_Image = new List<string>(new string[] { "bmp", "gif", "ico", "jpeg", "jpg", "png" });
+        List<string> Extentions_Audio = new List<string>(new string[] { "mp3", "aac", "flac" });
+        List<string> Extentions_Document = new List<string>(new string[] { "csv", "dot", "html","md", "odm", "gdoc","dot","dotx","doc","docx","xml" });
+        List<string> Extentions_Video = new List<string>(new string[] { "flv", "cam", "mov","mpeg","mkv","webm","gif", "avi", "mpg" });
+
         public MainWindow()
         {
             InitializeComponent();
@@ -58,7 +67,14 @@ namespace FilesFinder
 
         }
 
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            // ... Get RadioButton reference.
+            var button = sender as System.Windows.Controls.RadioButton;
 
+            // ... Display button content as title.
+            Filter = button.Content.ToString();
+        }
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff", ".doc", ".txt", ".docx", ".xlsx" };
@@ -73,25 +89,25 @@ namespace FilesFinder
 
 
                 //récupère les données de chaque fichier
-                var files = Directory.GetFiles(dlg.SelectedPath).Where(s => supportedExtensions.Contains(System.IO.Path.GetExtension(s).ToLower()));
+                var files = Directory.GetFiles(dlg.SelectedPath).Where(s => supportedExtensions.Contains(Path.GetExtension(s).ToLower()));
 
                 ObservableCollection<FileDetails> allFile = new ObservableCollection<FileDetails>();
 
 
-                System.IO.Directory.SetCurrentDirectory(dlg.SelectedPath);
+                Directory.SetCurrentDirectory(dlg.SelectedPath);
 
-                string currentDirName = System.IO.Directory.GetCurrentDirectory();
-                string[] filesMeta = System.IO.Directory.GetFiles(currentDirName, "*.*");
+                string currentDirName = Directory.GetCurrentDirectory();
+                string[] filesMeta = Directory.GetFiles(currentDirName, "*.*");
 
 
                 foreach (string f in filesMeta)
                 {
 
-                    System.IO.FileInfo fi = null;
+                    FileInfo fi = null;
 
                     try
                     {
-                        fi = new System.IO.FileInfo(f);
+                        fi = new FileInfo(f);
                     }
 
                     catch
@@ -118,10 +134,10 @@ namespace FilesFinder
                 foreach (var file in files)
                 {
 
-                    System.IO.FileInfo[] fileNames = d.GetFiles("*.*");
+                    FileInfo[] fileNames = d.GetFiles("*.*");
 
 
-                    foreach (System.IO.FileInfo fi in fileNames)
+                    foreach (FileInfo fi in fileNames)
                     {
                         Console.WriteLine("{0}: {1}: {2}", fi.Name, fi.LastAccessTime, fi.Length);
                     }
@@ -129,10 +145,10 @@ namespace FilesFinder
                     FileDetails id = new FileDetails()
                     {
 
-                        filename = System.IO.Path.GetFileName(file.ToString())
+                        filename = Path.GetFileName(file.ToString())
                     };
 
-                    var FileName = System.IO.Path.GetFullPath(file.ToString());
+                    var FileName = Path.GetFullPath(file.ToString());
 
 
                 }
