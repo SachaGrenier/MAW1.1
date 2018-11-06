@@ -68,14 +68,8 @@ namespace FilesFinder
 
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            // ... Get RadioButton reference.
-            var button = sender as System.Windows.Controls.RadioButton;
 
-            // ... Display button content as title.
-            Filter = button.Content.ToString();
-        }
+
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff", ".doc", ".txt", ".docx", ".xlsx" };
@@ -171,6 +165,8 @@ namespace FilesFinder
             public static ObservableCollection<FileDetails> myList { get; set; }
             public static string DateList { get; set; }
             public static string DateModificate { get; set; }
+
+            public static string RadiobuttonKeep { get; set; }
          
         }
 
@@ -184,109 +180,135 @@ namespace FilesFinder
         List<WordDetails> wordFileSearch = new List<WordDetails>();
 
 
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            // ... Get RadioButton reference.
+            var button = sender as System.Windows.Controls.RadioButton;       
+            // ... Display button content as title.
+            Filter = button.Content.ToString();
 
+            RetrieveList.RadiobuttonKeep = Filter;
+        }
 
+        
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             listFileSearch.Clear();
             wordFileSearch.Clear();
             wordFile.Clear();
 
-
-            listFile = RetrieveList.myList.ToList();
-
-            foreach (var list in listFile)
+            if (RetrieveList.myList != null)
             {
-                if (list.filename.ToString().Contains(".docx"))
+                listFile = RetrieveList.myList.ToList();
+
+                foreach (var list in listFile)
+                {
+                    if (list.filename.ToString().Contains(".docx"))
+                    {
+                        //crée un objet contenant les details de l'image
+                        WordDetails id = new WordDetails()
+                        {
+
+                            content = GetWord(list.path.ToString()),
+                            name = list.filename
+
+                        };
+                        wordFile.Add(id);
+
+                    }
+                }
+
+
+
+                //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
+                string txtOrig = txtNameToSearch.Text;
+
+                //Convertie la valeur tapé dans la bar de recherche en majuscule
+                string upper = txtOrig.ToUpper();
+
+                //Convertie la valeur tapé dans la bar de recherche en minuscule
+                string lower = txtOrig.ToLower();
+
+
+                //requete pour filtrer les fichier
+                var fileFiltered = from file in listFile
+                                   let enamefile = file.filename
+
+                                   //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                   where
+                                             enamefile.StartsWith(lower)
+                                          || enamefile.StartsWith(upper)
+                                          || enamefile.Contains(txtOrig)
+
+
+                                   select file;
+
+                //ajoute les fichiers filtré à la liste fileauthorFiltered
+                listFileSearch.AddRange(fileFiltered);
+
+                var fileauthorFiltered = from file in listFile
+                                         let authorfile = file.author
+
+                                         where file.author != null
+                                         //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                         where
+                                                   authorfile.StartsWith(lower)
+                                                || authorfile.StartsWith(upper)
+                                                || authorfile.Contains(txtOrig)
+
+
+                                         select file;
+
+                //ajoute les fichiers filtré à la liste listFileSearch
+                listFileSearch.AddRange(fileauthorFiltered);
+
+                if (RetrieveList.RadiobuttonKeep != null)
+                {
+                    if (RetrieveList.RadiobuttonKeep.Contains("Documents"))
+                    {
+                        var RadioCheck = RetrieveList.RadiobuttonKeep;
+
+                        var WordFiltered = from file in wordFile
+                                           let wordfile = file.content
+
+                                           where file.content != null
+                                           //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                           where
+                                                     wordfile.StartsWith(lower)
+                                                  || wordfile.StartsWith(upper)
+                                                  || wordfile.Contains(txtOrig)
+
+
+                                           select file;
+
+
+                        //ajoute les fichier word filtré à la liste wordFileSearch
+                        wordFileSearch.AddRange(WordFiltered);
+
+
+
+                        IEnumerable<WordDetails> sansDoublonWord = wordFileSearch.Distinct();
+
+                        FileList.ItemsSource = sansDoublonWord.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
+                    }                  
+                }
+
+                else
                 {
 
-                    //crée un objet contenant les details de l'image
-                    WordDetails id = new WordDetails()
-                    {
+                    //enleve les doublon du au deux condition where          
+                    IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
 
-                        content = GetWord(list.path.ToString()),
-                        name = list.filename
-
-                    };
-                    wordFile.Add(id);
-
+                    FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
                 }
             }
-         
-    
 
-            //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
-            string txtOrig = txtNameToSearch.Text;
+            else
+            {
+                System.Windows.MessageBox.Show("Y faut des fichiers connard");
+            }
 
-            //Convertie la valeur tapé dans la bar de recherche en majuscule
-            string upper = txtOrig.ToUpper();
-
-            //Convertie la valeur tapé dans la bar de recherche en minuscule
-            string lower = txtOrig.ToLower();
-
-
-            //requete pour filtrer les fichier
-            var fileFiltered = from file in listFile
-                               let enamefile = file.filename
-
-                               //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
-                               where
-                                         enamefile.StartsWith(lower)
-                                      || enamefile.StartsWith(upper)
-                                      || enamefile.Contains(txtOrig)
-
-
-                               select file;
-
-            //ajoute les fichiers filtré à la liste fileauthorFiltered
-            listFileSearch.AddRange(fileFiltered);
-
-            var fileauthorFiltered = from file in listFile
-                                     let authorfile = file.author
-
-                                     where file.author != null
-                                     //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
-                                     where
-                                               authorfile.StartsWith(lower)
-                                            || authorfile.StartsWith(upper)
-                                            || authorfile.Contains(txtOrig)
-
-
-                                     select file;
-
-            //ajoute les fichiers filtré à la liste listFileSearch
-            listFileSearch.AddRange(fileauthorFiltered);
-
-            
-
-
-            var WordFiltered = from file in wordFile
-                               let wordfile = file.content
-
-                               where file.content != null
-                               //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
-                               where
-                                         wordfile.StartsWith(lower)
-                                      || wordfile.StartsWith(upper)
-                                      || wordfile.Contains(txtOrig)
-
-
-                               select file;
-
-
-            //ajoute les fichier word filtré à la liste wordFileSearch
-            wordFileSearch.AddRange(WordFiltered);
-
-
-
-            //enleve les doublon du au deux condition where          
-           //IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
-
-            IEnumerable<WordDetails> sansDoublonWord = wordFileSearch.Distinct();
-
-            FileList.ItemsSource = sansDoublonWord.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
-
-         //  FileList.ItemsSource = sansDoublon2.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
+                      
         }
 
     }
