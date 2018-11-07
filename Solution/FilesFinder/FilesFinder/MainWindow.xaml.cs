@@ -201,24 +201,29 @@ namespace FilesFinder
             {
                 listFile = RetrieveList.myList.ToList();
 
-                foreach (var list in listFile)
+                if (RetrieveList.RadiobuttonKeep != null)
                 {
-                    if (list.filename.ToString().Contains(".docx"))
+                    if (RetrieveList.RadiobuttonKeep.Contains("Documents"))
+                {
+                    foreach (var list in listFile)
                     {
-                        //crée un objet contenant les details de l'image
-                        WordDetails id = new WordDetails()
+                        if (list.filename.ToString().Contains(".docx"))
                         {
+                            //crée un objet contenant les details de l'image
+                            WordDetails id = new WordDetails()
+                            {
 
-                            content = GetWord(list.path.ToString()),
-                            name = list.filename
+                                content = GetWord(list.path.ToString()),
+                                name = list.filename
 
-                        };
-                        wordFile.Add(id);
+                            };
+                            wordFile.Add(id);
 
+                        }
                     }
+
                 }
-
-
+                }
 
                 //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
                 string txtOrig = txtNameToSearch.Text;
