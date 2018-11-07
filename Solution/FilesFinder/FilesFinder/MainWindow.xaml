@@ -33,22 +33,7 @@
 
 
 
-                    <ColumnDefinition Width="129*" SharedSizeGroup="FileName"/>
-
-
-                    <ColumnDefinition Width="129*" SharedSizeGroup="FileSize"/>
-
-
-                    <ColumnDefinition Width="129*" SharedSizeGroup="FileAuthor"/>
-
-
-                    <ColumnDefinition Width="129*" SharedSizeGroup="CreationDate"/>
-
-                    <ColumnDefinition Width="130*" SharedSizeGroup="ModificationDate"/>
-
-
-                    <ColumnDefinition Width="28*" SharedSizeGroup="doyouknowdawe"/>
-                    <ColumnDefinition Width="101*"/>
+               
 
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -57,7 +42,7 @@
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto"
               VerticalScrollBarVisibility="Auto"
-              Grid.Column="0" Grid.Row="0">
+              Grid.Column="06" Grid.Row="0">
                     <ItemsControl  Name="FileList" ItemsSource="{Binding FileList}" ScrollViewer.CanContentScroll="True" Height="Auto" Margin="0,-14,0,8" >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
