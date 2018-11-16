@@ -17,7 +17,8 @@
                 </Button>
                 <TextBox HorizontalAlignment="Right" Margin="30,10,0,0"
                 x:Name="txtNameToSearch" TextChanged="txtNameToSearch_TextChanged" Width="200" Height="30"  RenderTransformOrigin="-0.657,0.25" />
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="30,39,0,18">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="10,39,0,18">
+                    <RadioButton GroupName="Filter" Content="Tout" IsChecked="True" Checked="RadioButton_Checked"/>
                     <RadioButton GroupName="Filter" Content="Images" IsChecked="False" Checked="RadioButton_Checked"/>
                     <RadioButton GroupName="Filter" Content="Audio" IsChecked="False" Checked="RadioButton_Checked"/>
                     <RadioButton GroupName="Filter" Content="Autres" IsChecked="False" Checked="RadioButton_Checked"/>
