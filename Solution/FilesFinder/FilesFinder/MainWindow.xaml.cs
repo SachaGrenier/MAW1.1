@@ -262,7 +262,6 @@ namespace FilesFinder
                                                 || authorfile.StartsWith(upper)
                                                 || authorfile.Contains(txtOrig)
 
-
                                          select file;
 
                 //ajoute les fichiers filtré à la liste listFileSearch
