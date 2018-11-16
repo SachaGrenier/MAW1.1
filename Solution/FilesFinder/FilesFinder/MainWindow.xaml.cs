@@ -26,7 +26,7 @@ namespace FilesFinder
 
         //lists of extentions accepted when filtered
         List<string> Extentions_Image = new List<string>(new string[] { "bmp", "gif", "ico", "jpeg", "jpg", "png" });
-        List<string> Extentions_Audio = new List<string>(new string[] { "mp3", "aac", "flac" });
+        List<string> Extentions_Audio = new List<string>(new string[] { "mp3", "aac", "flac", "ogg" });
         List<string> Extentions_Document = new List<string>(new string[] { "csv", "dot", "html","md", "odm", "gdoc","dot","dotx","doc","docx","xml" });
         List<string> Extentions_Video = new List<string>(new string[] { "flv", "cam", "mov","mpeg","mkv","webm","gif", "avi", "mpg" });
 
@@ -207,7 +207,8 @@ namespace FilesFinder
                 {
                     foreach (var list in listFile)
                     {
-                        if (list.filename.ToString().Contains(".docx"))
+                         
+                       if (list.filename.ToString().Contains(".docx"))
                         {
                             //crée un objet contenant les details de l'image
                             WordDetails id = new WordDetails()
