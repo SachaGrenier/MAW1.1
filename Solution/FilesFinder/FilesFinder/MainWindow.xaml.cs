@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using FilesFinder.Model;
 using System.IO;
 using Microsoft.Office.Interop.Word;
-using System.Windows.Media.Imaging;
 using System.Security.Principal;
 using Application = Microsoft.Office.Interop.Word.Application;
 using System.Text;
@@ -87,44 +86,40 @@ namespace FilesFinder
                 var files = Directory.GetFiles(dlg.SelectedPath).Where(s => supportedExtensions.Contains(Path.GetExtension(s).ToLower()));
 
                 ObservableCollection<FileDetails> allFile = new ObservableCollection<FileDetails>();
-
-
                 Directory.SetCurrentDirectory(dlg.SelectedPath);
-
                 string currentDirName = Directory.GetCurrentDirectory();
-                string[] filesMeta = Directory.GetFiles(currentDirName, "*.*");
+                string[] filesMeta = Directory.GetFiles(currentDirName, "*.*",SearchOption.AllDirectories);
 
-
-                foreach (string f in filesMeta)
-                {
-
-                    FileInfo fi = null;
-
-                    try
+              
+                                      
+                    foreach (string f in filesMeta)
                     {
-                        fi = new FileInfo(f);
+
+                        FileInfo fi = null;
+
+                        try
+                        {
+                            fi = new FileInfo(f);
+                        }
+
+                        catch
+                        {
+                            continue;
+                        }
+                    
+                        //crée un objet contenant les details de l'image
+                        FileDetails id = new FileDetails()
+                        {
+                            filename = fi.Name,
+                            path = fi.ToString(),
+                            author = GetTags(fi.ToString())
+                            
+                      
+                        };
+                        allFile.Add(id);
                     }
 
-                    catch
-                    {
-                        continue;
-                    }
-
-                    //crée un objet contenant les details de l'image
-                    FileDetails id = new FileDetails()
-                    {
-                        filename = fi.Name,
-                        path = fi.ToString(),
-                        author = GetTags(fi.ToString())
-
-
-                    };
-                    allFile.Add(id);
-
-
-                }
-
-
+                
                 //parcours le tableau de données
                 foreach (var file in files)
                 {
@@ -159,17 +154,6 @@ namespace FilesFinder
 
         }
 
-        //paramètre statique pour garder une liste de fichiers en memoire
-        public class RetrieveList
-        {
-            public static ObservableCollection<FileDetails> myList { get; set; }
-            public static string DateList { get; set; }
-            public static string DateModificate { get; set; }
-
-            public static string RadiobuttonKeep { get; set; }
-
-        }
-
 
         List<FileDetails> listFileSearch = new List<FileDetails>();
 
@@ -201,10 +185,7 @@ namespace FilesFinder
             {
                 listFile = RetrieveList.myList.ToList();
 
-               
-
-
-                    {
+                {
                     if (RetrieveList.RadiobuttonKeep.Contains("Documents"))
                     {
                         foreach (var list in listFile)
@@ -238,13 +219,11 @@ namespace FilesFinder
                 string lower = txtOrig.ToLower();
 
 
-
-
                 if (RetrieveList.RadiobuttonKeep != "Tout")
                 {
                     if (RetrieveList.RadiobuttonKeep.Contains("Documents"))
                     {
-                      //  var RadioCheck = RetrieveList.RadiobuttonKeep;
+                        //  var RadioCheck = RetrieveList.RadiobuttonKeep;
 
                         var WordFiltered = from file in wordFile
                                            let wordfile = file.content
@@ -321,7 +300,7 @@ namespace FilesFinder
 
             else
             {
-                System.Windows.MessageBox.Show("Y faut des fichiers connard");
+                System.Windows.MessageBox.Show("Veuillez choisir un dossier");
             }
 
 
