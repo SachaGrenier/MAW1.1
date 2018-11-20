@@ -8,7 +8,7 @@
         Title="FileFinder" Height="450" Width="800">
     <Grid Height="Auto" Width="Auto">
         <Grid Height="Auto" Width="Auto" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal" Background="#33adff" Margin="0,0,0,0" Grid.ColumnSpan="3" Height="Auto" >
+            <StackPanel Orientation="Horizontal" Background="#7cadf1" Margin="0,0,0,0" Grid.ColumnSpan="3" Height="Auto" >
                 <Label Margin="10,0,0,0" Height="23" Name="Label1">
                     Current File:
                 </Label>
@@ -27,43 +27,41 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        
-            <Grid Height="330" Width="Auto" VerticalAlignment="Bottom">
-                
-                <Grid.ColumnDefinitions>
+        <Grid Height="330" Width="Auto" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" ItemsSource="{Binding FileList}" HorizontalAlignment="Left" Width="772">
+            
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <Image Height="100" />
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+            </DataGrid>
 
-
-
-               
-
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+            <!-- <ScrollViewer HorizontalScrollBarVisibility="Auto"
               VerticalScrollBarVisibility="Auto"
               Grid.Column="06" Grid.Row="0">
-                    <ItemsControl  Name="FileList" ItemsSource="{Binding FileList}" ScrollViewer.CanContentScroll="True" Height="Auto" Margin="0,-14,0,8" >
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
-                                    <StackPanel Orientation="Horizontal">
+                <ItemsControl  Name="FileList" ItemsSource="{Binding FileList}" ScrollViewer.CanContentScroll="True" Height="Auto" Margin="0,-14,0,8" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
+                                <StackPanel Orientation="Horizontal">
 
-                                        <!--name, type and size-->
-                                        <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center" >
-                                            <TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
-                                            <TextBlock Name="WordContent" Margin="1" Foreground="#FF787878" Text="{Binding name}"/>
-                                        </StackPanel>
+                                    name, type and size
+                                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center" >
+                                        <TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
+                                        <TextBlock Name="WordContent" Margin="1" Foreground="#FF787878" Text="{Binding name}"/>
                                     </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-
-            </Grid>
-  
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer> -->
+        </Grid>
     </Grid>
-
 </Window>
