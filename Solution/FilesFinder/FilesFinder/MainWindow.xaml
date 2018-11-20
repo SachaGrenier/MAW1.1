@@ -27,14 +27,14 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid Height="330" Width="Auto" VerticalAlignment="Bottom">
+        <Grid Width="Auto" Margin="0,89,0,0">
             <Grid.ColumnDefinitions>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" ItemsSource="{Binding FileList}" HorizontalAlignment="Left" Width="772">
-            
+            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Margin="10" ItemsSource="{Binding FileList}">
+
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
                         <Image Height="100" />
