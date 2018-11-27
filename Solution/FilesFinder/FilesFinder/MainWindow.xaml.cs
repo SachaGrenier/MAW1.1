@@ -7,13 +7,12 @@ using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using FilesFinder.Model;
 using System.IO;
-using Microsoft.Office.Interop.Word;
 using System.Security.Principal;
-using Application = Microsoft.Office.Interop.Word.Application;
 using System.Text;
 using System.Windows.Input;
 using System.Windows.Shapes;
-
+using Spire.Doc;
+using Spire.Doc.Documents;
 namespace FilesFinder
 {
     /// <summary>
@@ -52,19 +51,20 @@ namespace FilesFinder
 
         public string GetWord(string path)
         {
+
             StringBuilder text = new StringBuilder();
-            Application app = new Application();
-            app.Visible = false;
-            Document doc = app.Documents.Open(path);
-            for (int i = 0; i < doc.Paragraphs.Count; i++)
+            Document document = new Document();
+            document.LoadFromFile(path);
+
+
+            foreach (Section section in document.Sections)
             {
-                text.Append(" \r\n " + doc.Paragraphs[i + 1].Range.Text.ToString());
-            }
-
-            doc.Close(false);
-            app.Quit(false);
+                foreach (Paragraph paragraph in section.Paragraphs)
+                {
+                    text.AppendLine(paragraph.Text);
+                }
+            }        
             return text.ToString();
-
 
         }
 
@@ -95,7 +95,7 @@ namespace FilesFinder
 
                 foreach (string f in filesMeta)
                 {
-                    if (!f.ToString().Contains(".ini") || !f.ToString().Contains("~"))
+                    if (!f.ToString().Contains(".ini") && !f.ToString().Contains("~"))
                     {
                         FileInfo fi = null;
 
@@ -123,18 +123,14 @@ namespace FilesFinder
 
                     }
                 }
-         
-
+               int num = allFile.Count;
 
                 RetrieveList.myList = allFile;
-
+        
                 //Remplie le tableau de donnée avec les fichiers trouvé
                 FileList.ItemsSource = allFile;
 
-
-
-
-
+            
                 //parcours le tableau de données
                 /*  foreach (var file in files)
                   {
@@ -161,16 +157,10 @@ namespace FilesFinder
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            try
-            {
+                               
                 FileDetails fl = FileList.SelectedItem as FileDetails;
-                System.Diagnostics.Process.Start(fl.filename.ToString());
-            }
-            catch
-            {
-
-            }
-         
+                System.Diagnostics.Process.Start(fl.path.ToString());
+                                        
         }
 
         List<FileDetails> listFileSearch = new List<FileDetails>();
@@ -208,7 +198,6 @@ namespace FilesFinder
                     {
                         foreach (var list in listFile)
                         {
-
                             if (list.filename.ToString().Contains(".doc"))
                             {
                                 //crée un objet contenant les details de l'image

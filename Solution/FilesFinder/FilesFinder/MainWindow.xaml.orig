@@ -1,0 +1,58 @@
+﻿<Window x:Class="FilesFinder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FilesFinder"
+        mc:Ignorable="d"
+        Title="FileFinder" Height="450" Width="850" MinWidth="850" MinHeight="450">
+    <Grid Height="Auto" Width="Auto">
+        <Grid Height="Auto" Width="Auto" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" Background="#7cadf1" Margin="0,0,0,0" Grid.ColumnSpan="3" Height="Auto" >
+                <Label Margin="10,0,0,0" Height="23" Name="Label1">
+                    Current File:
+                </Label>
+                <Button Margin="5,25,0,20" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder" RenderTransformOrigin="1.237,0.921">
+                    <!--  -->
+                </Button>
+                <TextBox HorizontalAlignment="Right" Margin="30,10,0,0"
+                x:Name="txtNameToSearch" TextChanged="txtNameToSearch_TextChanged" Width="200" Height="30"  RenderTransformOrigin="-0.657,0.25" />
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="10,39,0,18">
+                    <RadioButton GroupName="Filter" Content="Tout" IsChecked="True" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Images" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Audio" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Autres" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Documents" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Vidéos" IsChecked="False" Checked="RadioButton_Checked"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Width="Auto" MinWidth="800" Margin="0,89,0,0">
+            <Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+<<<<<<< HEAD
+            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" ItemsSource="{Binding FileList}" HorizontalAlignment="Left" Width="772">
+                <DataGrid.RowDetailsTemplate>                 
+                     <DataTemplate>
+                       <Image Height="100" />
+=======
+            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Margin="10" ItemsSource="{Binding FileList}">
+
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <Image Height="100" />
+>>>>>>> 04bb66e59729398ab94c6f7e280c771a38d986f5
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+                <DataGrid.ItemContainerStyle>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick" />
+                    </Style>
+                </DataGrid.ItemContainerStyle>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>
