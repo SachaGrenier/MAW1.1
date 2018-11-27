@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FilesFinder"
         mc:Ignorable="d"
-        Title="FileFinder" Height="450" Width="800">
+        Title="FileFinder" Height="450" Width="850" MinWidth="850" MinHeight="450">
     <Grid Height="Auto" Width="Auto">
         <Grid Height="Auto" Width="Auto" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" Background="#7cadf1" Margin="0,0,0,0" Grid.ColumnSpan="3" Height="Auto" >
                 <Label Margin="10,0,0,0" Height="23" Name="Label1">
                     Current File:
                 </Label>
-                <Button Margin="5,32,0,18" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder" RenderTransformOrigin="1.237,0.921">
+                <Button Margin="5,25,0,20" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder" RenderTransformOrigin="1.237,0.921">
                     <!--  -->
                 </Button>
                 <TextBox HorizontalAlignment="Right" Margin="30,10,0,0"
@@ -27,13 +27,14 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid Height="330" Width="Auto" VerticalAlignment="Bottom">
+        <Grid Width="Auto" MinWidth="800" Margin="0,89,0,0">
             <Grid.ColumnDefinitions>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" ItemsSource="{Binding FileList}" HorizontalAlignment="Left" Width="772">
+            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Margin="10" ItemsSource="{Binding FileList}">
+            
                 <DataGrid.RowDetailsTemplate>                 
                      <DataTemplate>
                        <Image Height="100" />
