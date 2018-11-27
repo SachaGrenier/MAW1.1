@@ -1,0 +1,3 @@
+Afficher la quantité de résultats
+metadonnée : type de fichier ( comme filtres)
+filter liste des données : pas de .ini et pas de fichier temp (~$fichier.jpg)
