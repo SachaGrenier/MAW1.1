@@ -28,17 +28,23 @@
             </StackPanel>
         </Grid>
         <Grid Width="Auto" MinWidth="800" Margin="0,89,0,0">
-            <TextBlock x:Name="countEl" Text="éléments ont été trouvé" Margin="10,-10,20,10"/>
             <Grid.ColumnDefinitions>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Margin="10" ItemsSource="{Binding FileList}">
-            
+<<<<<<< HEAD
+            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" ItemsSource="{Binding FileList}" HorizontalAlignment="Left" Width="772">
                 <DataGrid.RowDetailsTemplate>                 
                      <DataTemplate>
                        <Image Height="100" />
+=======
+            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Margin="10" ItemsSource="{Binding FileList}">
+
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <Image Height="100" />
+>>>>>>> 04bb66e59729398ab94c6f7e280c771a38d986f5
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
                 <DataGrid.ItemContainerStyle>

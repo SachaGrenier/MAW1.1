@@ -7,12 +7,12 @@ using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using FilesFinder.Model;
 using System.IO;
-using Microsoft.Office.Interop.Word;
 using System.Security.Principal;
-using Application = Microsoft.Office.Interop.Word.Application;
 using System.Text;
-
-
+using System.Windows.Input;
+using System.Windows.Shapes;
+using Spire.Doc;
+using Spire.Doc.Documents;
 namespace FilesFinder
 {
     /// <summary>
@@ -51,19 +51,20 @@ namespace FilesFinder
 
         public string GetWord(string path)
         {
+
             StringBuilder text = new StringBuilder();
-            Application app = new Application();
-            app.Visible = false;
-            Document doc = app.Documents.Open(path);
-            for (int i = 0; i < doc.Paragraphs.Count; i++)
+            Document document = new Document();
+            document.LoadFromFile(path);
+
+
+            foreach (Section section in document.Sections)
             {
-                text.Append(" \r\n " + doc.Paragraphs[i + 1].Range.Text.ToString());
-            }
-
-            doc.Close(false);
-            app.Quit(false);
+                foreach (Paragraph paragraph in section.Paragraphs)
+                {
+                    text.AppendLine(paragraph.Text);
+                }
+            }        
             return text.ToString();
-
 
         }
 
@@ -71,7 +72,7 @@ namespace FilesFinder
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff", ".doc", ".txt", ".docx", ".xlsx" };
+            // string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff", ".doc", ".txt", ".docx", ".xlsx" };
 
             FolderBrowserDialog dlg = new FolderBrowserDialog();
 
@@ -83,18 +84,19 @@ namespace FilesFinder
 
 
                 //récupère les données de chaque fichier
-                var files = Directory.GetFiles(dlg.SelectedPath).Where(s => supportedExtensions.Contains(Path.GetExtension(s).ToLower()));
+                // var files = Directory.GetFiles(dlg.SelectedPath).Where(s => supportedExtensions.Contains(Path.GetExtension(s).ToLower()));
 
                 ObservableCollection<FileDetails> allFile = new ObservableCollection<FileDetails>();
                 Directory.SetCurrentDirectory(dlg.SelectedPath);
                 string currentDirName = Directory.GetCurrentDirectory();
-                string[] filesMeta = Directory.GetFiles(currentDirName, "*.*",SearchOption.AllDirectories);
+                string[] filesMeta = Directory.GetFiles(currentDirName, "*.*", SearchOption.AllDirectories);
 
-              
-                                      
-                    foreach (string f in filesMeta)
+
+
+                foreach (string f in filesMeta)
+                {
+                    if (!f.ToString().Contains(".ini") && !f.ToString().Contains("~"))
                     {
-
                         FileInfo fi = null;
 
                         try
@@ -106,54 +108,60 @@ namespace FilesFinder
                         {
                             continue;
                         }
-                    
+
                         //crée un objet contenant les details de l'image
                         FileDetails id = new FileDetails()
                         {
                             filename = fi.Name,
                             path = fi.ToString(),
                             author = GetTags(fi.ToString())
-                            
-                      
+
+
                         };
+
                         allFile.Add(id);
+
                     }
-
-                
-                //parcours le tableau de données
-                foreach (var file in files)
-                {
-
-                    FileInfo[] fileNames = d.GetFiles("*.*");
-
-
-                    foreach (FileInfo fi in fileNames)
-                    {
-                        Console.WriteLine("{0}: {1}: {2}", fi.Name, fi.LastAccessTime, fi.Length);
-                    }
-
-                    FileDetails id = new FileDetails()
-                    {
-
-                        filename = Path.GetFileName(file.ToString())
-                    };
-
-                    var FileName = Path.GetFullPath(file.ToString());
-
-
                 }
-
+               int num = allFile.Count;
 
                 RetrieveList.myList = allFile;
-
+        
                 //Remplie le tableau de donnée avec les fichiers trouvé
                 FileList.ItemsSource = allFile;
 
+            
+                //parcours le tableau de données
+                /*  foreach (var file in files)
+                  {
+
+                      FileInfo[] fileNames = d.GetFiles("*.*");
+
+
+                      foreach (FileInfo fi in fileNames)
+                      {
+                          Console.WriteLine("{0}: {1}: {2}", fi.Name, fi.LastAccessTime, fi.Length);
+                      }
+
+                      FileDetails id = new FileDetails()
+                      {
+
+                          filename = Path.GetFileName(file.ToString())
+                      };
+
+                      var FileName = Path.GetFullPath(file.ToString());
+
+
+                  }*/
             }
-
-
         }
-
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+                               
+                FileDetails fl = FileList.SelectedItem as FileDetails;
+                System.Diagnostics.Process.Start(fl.path.ToString());
+                                        
+        }
 
         List<FileDetails> listFileSearch = new List<FileDetails>();
 
@@ -173,7 +181,7 @@ namespace FilesFinder
 
             RetrieveList.RadiobuttonKeep = Filter;
         }
-
+       
 
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -190,8 +198,7 @@ namespace FilesFinder
                     {
                         foreach (var list in listFile)
                         {
-
-                            if (list.filename.ToString().Contains(".docx"))
+                            if (list.filename.ToString().Contains(".doc"))
                             {
                                 //crée un objet contenant les details de l'image
                                 WordDetails id = new WordDetails()
@@ -250,8 +257,8 @@ namespace FilesFinder
                     {
                         foreach (var list in listFile)
                         {
-                            string extensions = Path.GetExtension(list.path);
-                            string chemin = Path.GetFullPath(list.path);
+                            string extensions = System.IO.Path.GetExtension(list.path);
+                            string chemin = System.IO.Path.GetFullPath(list.path);
 
 
                         }
