@@ -28,6 +28,7 @@
             </StackPanel>
         </Grid>
         <Grid Width="Auto" MinWidth="800" Margin="0,89,0,0">
+            <TextBlock x:Name="countEl" Text="éléments ont été trouvé" Margin="10,-10,20,10"/>
             <Grid.ColumnDefinitions>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
