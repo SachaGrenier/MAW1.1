@@ -12,7 +12,7 @@
                 <Label Margin="10,0,0,0" Height="23" Name="Label1">
                     Current File:
                 </Label>
-                <Button Margin="5,32,0,18" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder" RenderTransformOrigin="1.237,0.921">
+                <Button Margin="5,25,0,20" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder" RenderTransformOrigin="1.237,0.921">
                     <!--  -->
                 </Button>
                 <TextBox HorizontalAlignment="Right" Margin="30,10,0,0"
