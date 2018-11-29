@@ -322,14 +322,4 @@ namespace FilesFinder
 
         }
 
-    }
-    public class DemoCustomer : System.ComponentModel.INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void update_quantity(int qty)
-        {
-
-        }
-    }
 }
