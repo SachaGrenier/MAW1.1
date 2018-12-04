@@ -173,7 +173,7 @@ namespace FilesFinder
 
         List<PDFdetails> PDFFileSearch = new List<PDFdetails>();
 
-        List<PDFWordDetails> PDFWordFile = new List<PDFWordDetails>();
+        
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -193,7 +193,7 @@ namespace FilesFinder
             wordFile.Clear();
             PDFFile.Clear();
             PDFFileSearch.Clear();
-            PDFWordFile.Clear();
+         
 
             if (RetrieveList.myList != null)
             {
@@ -219,7 +219,6 @@ namespace FilesFinder
                             }
 
 
-
                             if (list.filename.ToString().Contains(".pdf"))
                             {
                                 //crée un objet contenant les details de l'image
@@ -230,6 +229,7 @@ namespace FilesFinder
                                     name = list.filename
 
                                 };
+
                                 PDFFile.Add(id);
                                 
                             }
@@ -277,6 +277,12 @@ namespace FilesFinder
 
                             //  var RadioCheck = RetrieveList.RadiobuttonKeep;
 
+                        }
+
+
+                        if (RetrieveList.RadiobuttonKeep.Contains("PDF"))
+                        {
+
                             var PDFFiltered = from file in PDFFile
                                               let PDFFile = file.content
 
@@ -288,15 +294,15 @@ namespace FilesFinder
                                                      || PDFFile.Contains(txtOrig)
 
                                               select file;
-                           
-                           
+
+
                             //ajoute les fichier pdf filtré à la liste wordFileSearch
                             PDFFileSearch.AddRange(PDFFiltered);
 
                             IEnumerable<PDFdetails> sansDoublonPDF = PDFFileSearch.Distinct();
-                            
+
                             FileList.ItemsSource = sansDoublonPDF.OrderBy(PDFdetails => PDFdetails.name).ToObservableCollection();
-                                         
+
                         }
 
                         if (RetrieveList.RadiobuttonKeep.Contains("Images"))
