@@ -8,7 +8,7 @@ namespace FilesFinder.Model
 {
   public  class FileDetails
     {
-        public string name { get; set; }
+      
 
         public string filename { get; set; }
 

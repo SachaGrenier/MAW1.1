@@ -132,7 +132,7 @@ namespace FilesFinder
 
             
                 //parcours le tableau de données
-                /*  foreach (var file in files)
+                /* foreach (var file in files)
                   {
 
                       FileInfo[] fileNames = d.GetFiles("*.*");
