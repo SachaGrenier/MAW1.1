@@ -20,7 +20,7 @@ namespace FilesFinder
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : System.Windows.Window 
+    public partial class MainWindow : System.Windows.Window
     {
         //sets reference for filter
         private string Filter = null;
@@ -47,9 +47,7 @@ namespace FilesFinder
             var name = ntAccount.Value.Split('\\');
 
             return name[1];
-
         }
-
 
         public string GetWord(string path)
         {
@@ -65,12 +63,9 @@ namespace FilesFinder
                 {
                     text.AppendLine(paragraph.Text);
                 }
-            }        
+            }
             return text.ToString();
-
         }
-
-
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -84,7 +79,6 @@ namespace FilesFinder
             {
                 //defini le dossier choisi
                 DirectoryInfo d = new DirectoryInfo(dlg.SelectedPath);
-
 
                 //récupère les données de chaque fichier
                 // var files = Directory.GetFiles(dlg.SelectedPath).Where(s => supportedExtensions.Contains(Path.GetExtension(s).ToLower()));
@@ -128,14 +122,14 @@ namespace FilesFinder
                 }
                 //int num = allFile.Count;
                 //int num = 1;
-            
+
 
                 RetrieveList.myList = allFile;
-        
+
                 //Remplit le tableau de donnée avec les fichiers trouvé
                 FileList.ItemsSource = allFile;
 
-            
+
                 //parcours le tableau de données
                 /*  foreach (var file in files)
                   {
@@ -163,13 +157,13 @@ namespace FilesFinder
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
 
-                if(e.ChangedButton == MouseButton.Left)
-                {
-                    FileDetails fl = FileList.SelectedItem as FileDetails;
-                    System.Diagnostics.Process.Start(fl.path.ToString());
-                }
-             
-                                        
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                FileDetails fl = FileList.SelectedItem as FileDetails;
+                System.Diagnostics.Process.Start(fl.path.ToString());
+            }
+
+
         }
 
         List<FileDetails> listFileSearch = new List<FileDetails>();
@@ -190,7 +184,7 @@ namespace FilesFinder
 
             RetrieveList.RadiobuttonKeep = Filter;
         }
-       
+
 
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -322,4 +316,5 @@ namespace FilesFinder
 
         }
 
+    }
 }
