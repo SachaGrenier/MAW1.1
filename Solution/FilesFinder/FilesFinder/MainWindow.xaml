@@ -28,7 +28,6 @@
             </StackPanel>
         </Grid>
         <Grid Width="Auto" MinWidth="800" Margin="0,89,0,0">
-            <TextBlock x:Name="countEl" Text="éléments ont été trouvé" Margin="10,-10,20,10"/>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="45*"/>
                 <ColumnDefinition Width="797*"/>
@@ -52,26 +51,6 @@
             </DataGrid>
             <TextBox Margin="0,0,10,5" x:Name="findEl" Width="Auto" Height="Auto" Text="éléments trouvés" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
-            <!-- <ScrollViewer HorizontalScrollBarVisibility="Auto"
-              VerticalScrollBarVisibility="Auto"
-              Grid.Column="06" Grid.Row="0">
-                <ItemsControl  Name="FileList" ItemsSource="{Binding FileList}" ScrollViewer.CanContentScroll="True" Height="Auto" Margin="0,-14,0,8" >
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
-                                <StackPanel Orientation="Horizontal">
-
-                                    name, type and size
-                                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center" >
-                                        <TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
-                                        <TextBlock Name="WordContent" Margin="1" Foreground="#FF787878" Text="{Binding name}"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer> -->
         </Grid>
     </Grid>
 </Window>
