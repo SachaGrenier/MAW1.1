@@ -28,23 +28,23 @@
             </StackPanel>
         </Grid>
         <Grid Width="Auto" MinWidth="800" Margin="0,89,0,0">
+<<<<<<< HEAD
+           
+=======
+>>>>>>> 2d00e6b873b18ec2353673bfcf4881070d6103e0
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45*"/>
+                <ColumnDefinition Width="797*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-<<<<<<< HEAD
-            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Height="310" Margin="10,10,0,0" VerticalAlignment="Top" ItemsSource="{Binding FileList}" HorizontalAlignment="Left" Width="772">
-                <DataGrid.RowDetailsTemplate>                 
-                     <DataTemplate>
-                       <Image Height="100" />
-=======
-            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Margin="10" ItemsSource="{Binding FileList}">
+
+            <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Margin="10,10,10,28" ItemsSource="{Binding FileList}" Grid.ColumnSpan="2">
 
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
                         <Image Height="100" />
->>>>>>> 04bb66e59729398ab94c6f7e280c771a38d986f5
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
                 <DataGrid.ItemContainerStyle>
@@ -53,6 +53,28 @@
                     </Style>
                 </DataGrid.ItemContainerStyle>
             </DataGrid>
+            <TextBox Margin="0,0,10,5" x:Name="findEl" Width="Auto" Height="Auto" Text="éléments trouvés" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+
+            <!-- <ScrollViewer HorizontalScrollBarVisibility="Auto"
+              VerticalScrollBarVisibility="Auto"
+              Grid.Column="06" Grid.Row="0">
+                <ItemsControl  Name="FileList" ItemsSource="{Binding FileList}" ScrollViewer.CanContentScroll="True" Height="Auto" Margin="0,-14,0,8" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
+                                <StackPanel Orientation="Horizontal">
+
+                                    name, type and size
+                                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center" >
+                                        <TextBlock Name="FileName" Margin="1" Foreground="#FF787878" Text="{Binding filename}"/>
+                                        <TextBlock Name="WordContent" Margin="1" Foreground="#FF787878" Text="{Binding name}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer> -->
         </Grid>
     </Grid>
 </Window>
