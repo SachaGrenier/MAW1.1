@@ -21,9 +21,10 @@
                     <RadioButton GroupName="Filter" Content="Tout" IsChecked="True" Checked="RadioButton_Checked"/>
                     <RadioButton GroupName="Filter" Content="Images" IsChecked="False" Checked="RadioButton_Checked"/>
                     <RadioButton GroupName="Filter" Content="Audio" IsChecked="False" Checked="RadioButton_Checked"/>
-                    <RadioButton GroupName="Filter" Content="Autres" IsChecked="False" Checked="RadioButton_Checked"/>
-                    <RadioButton GroupName="Filter" Content="Documents" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Word" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="PDF" IsChecked="False" Checked="RadioButton_Checked"/>
                     <RadioButton GroupName="Filter" Content="Vidéos" IsChecked="False" Checked="RadioButton_Checked"/>
+                    <RadioButton GroupName="Filter" Content="Autres" IsChecked="False" Checked="RadioButton_Checked"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

@@ -14,12 +14,14 @@ using System.Windows.Shapes;
 using Spire.Doc;
 using Spire.Pdf;
 using Spire.Doc.Documents;
+using System.ComponentModel;
+
 namespace FilesFinder
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : System.Windows.Window
+    public partial class MainWindow : System.Windows.Window 
     {
         //sets reference for filter
         private string Filter = null;
@@ -95,6 +97,7 @@ namespace FilesFinder
         {
             
 
+
             FolderBrowserDialog dlg = new FolderBrowserDialog();
 
             //ouvre l'exlporateur de fichier
@@ -142,11 +145,13 @@ namespace FilesFinder
 
                     }
                 }
-               int num = allFile.Count;
+                //int num = allFile.Count;
+                //int num = 1;
+            
 
                 RetrieveList.myList = allFile;
         
-                //Remplie le tableau de donnée avec les fichiers trouvé
+                //Remplit le tableau de donnée avec les fichiers trouvé
                 FileList.ItemsSource = allFile;
 
                 NumberArray.Text = num.ToString() + " élément"+ (num > 1 ? "s" : "") +" trouvé"+(num > 1 ? "s" : "" );
@@ -155,9 +160,13 @@ namespace FilesFinder
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-                               
-                FileDetails fl = FileList.SelectedItem as FileDetails;
-                System.Diagnostics.Process.Start(fl.path.ToString());
+
+                if(e.ChangedButton == MouseButton.Left)
+                {
+                    FileDetails fl = FileList.SelectedItem as FileDetails;
+                    System.Diagnostics.Process.Start(fl.path.ToString());
+                }
+             
                                         
         }
 
@@ -365,5 +374,14 @@ namespace FilesFinder
 
         }
 
+    }
+    public class DemoCustomer : System.ComponentModel.INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void update_quantity(int qty)
+        {
+
+        }
     }
 }
