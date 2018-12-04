@@ -12,6 +12,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using Spire.Doc;
+using Spire.Pdf;
 using Spire.Doc.Documents;
 namespace FilesFinder
 {
@@ -68,11 +69,31 @@ namespace FilesFinder
 
         }
 
+        public string GetPDF(string path)
+        {
+
+            //Create a pdf document.
+            
+            PdfDocument doc = new PdfDocument();
+           
+            doc.LoadFromFile(path);
+          
+            StringBuilder buffer = new StringBuilder();
+                              
+            foreach (PdfPageBase page in doc.Pages)
+                
+            {              
+                buffer.Append(page.ExtractText());
+                                            
+            }
+
+            return buffer.ToString();
+        }
 
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-            // string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff", ".doc", ".txt", ".docx", ".xlsx" };
+            
 
             FolderBrowserDialog dlg = new FolderBrowserDialog();
 
@@ -82,9 +103,7 @@ namespace FilesFinder
                 //defini le dossier choisi
                 DirectoryInfo d = new DirectoryInfo(dlg.SelectedPath);
 
-
-                //récupère les données de chaque fichier
-                // var files = Directory.GetFiles(dlg.SelectedPath).Where(s => supportedExtensions.Contains(Path.GetExtension(s).ToLower()));
+         
 
                 ObservableCollection<FileDetails> allFile = new ObservableCollection<FileDetails>();
                 Directory.SetCurrentDirectory(dlg.SelectedPath);
@@ -130,29 +149,8 @@ namespace FilesFinder
                 //Remplie le tableau de donnée avec les fichiers trouvé
                 FileList.ItemsSource = allFile;
 
-            
-                //parcours le tableau de données
-                /* foreach (var file in files)
-                  {
+                NumberArray.Text = num.ToString() + " élément"+ (num > 1 ? "s" : "") +" trouvé"+(num > 1 ? "s" : "" );
 
-                      FileInfo[] fileNames = d.GetFiles("*.*");
-
-
-                      foreach (FileInfo fi in fileNames)
-                      {
-                          Console.WriteLine("{0}: {1}: {2}", fi.Name, fi.LastAccessTime, fi.Length);
-                      }
-
-                      FileDetails id = new FileDetails()
-                      {
-
-                          filename = Path.GetFileName(file.ToString())
-                      };
-
-                      var FileName = Path.GetFullPath(file.ToString());
-
-
-                  }*/
             }
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -171,6 +169,11 @@ namespace FilesFinder
 
         List<WordDetails> wordFileSearch = new List<WordDetails>();
 
+        List<PDFdetails> PDFFile = new List<PDFdetails>();
+
+        List<PDFdetails> PDFFileSearch = new List<PDFdetails>();
+
+        List<PDFWordDetails> PDFWordFile = new List<PDFWordDetails>();
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -188,6 +191,9 @@ namespace FilesFinder
             listFileSearch.Clear();
             wordFileSearch.Clear();
             wordFile.Clear();
+            PDFFile.Clear();
+            PDFFileSearch.Clear();
+            PDFWordFile.Clear();
 
             if (RetrieveList.myList != null)
             {
@@ -211,97 +217,137 @@ namespace FilesFinder
                                 wordFile.Add(id);
 
                             }
+
+
+
+                            if (list.filename.ToString().Contains(".pdf"))
+                            {
+                                //crée un objet contenant les details de l'image
+                                PDFdetails id = new PDFdetails()
+                                {
+
+                                    content = GetPDF(list.path.ToString()),
+                                    name = list.filename
+
+                                };
+                                PDFFile.Add(id);
+                                
+                            }
+                        }
+                    }
+
+                    //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
+                    string txtOrig = txtNameToSearch.Text;
+
+                    //Convertie la valeur tapé dans la bar de recherche en majuscule
+                    string upper = txtOrig.ToUpper();
+
+                    //Convertie la valeur tapé dans la bar de recherche en minuscule
+                    string lower = txtOrig.ToLower();
+
+
+                    if (RetrieveList.RadiobuttonKeep != "Tout")
+                    {
+                        if (RetrieveList.RadiobuttonKeep.Contains("Documents"))
+                        {
+                            //  var RadioCheck = RetrieveList.RadiobuttonKeep;
+
+                            var WordFiltered = from file in wordFile
+                                               let wordfile = file.content
+
+                                               where file.content != null
+                                               //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                               where
+                                                         wordfile.StartsWith(lower)
+                                                      || wordfile.StartsWith(upper)
+                                                      || wordfile.Contains(txtOrig)
+
+                                               select file;
+
+
+                            //ajoute les fichier word filtré à la liste wordFileSearch
+                            wordFileSearch.AddRange(WordFiltered);
+                        
+                            IEnumerable<WordDetails> sansDoublonWord = wordFileSearch.Distinct();
+                          
+
+                            FileList.ItemsSource = sansDoublonWord.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
+
+                           
+
+                            //  var RadioCheck = RetrieveList.RadiobuttonKeep;
+
+                            var PDFFiltered = from file in PDFFile
+                                              let PDFFile = file.content
+
+                                              where file.content != null
+                                              //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                              where
+                                                        PDFFile.StartsWith(lower)
+                                                     || PDFFile.StartsWith(upper)
+                                                     || PDFFile.Contains(txtOrig)
+
+                                              select file;
+                           
+                           
+                            //ajoute les fichier pdf filtré à la liste wordFileSearch
+                            PDFFileSearch.AddRange(PDFFiltered);
+
+                            IEnumerable<PDFdetails> sansDoublonPDF = PDFFileSearch.Distinct();
+                            
+                            FileList.ItemsSource = sansDoublonPDF.OrderBy(PDFdetails => PDFdetails.name).ToObservableCollection();
+                                         
                         }
 
+                        if (RetrieveList.RadiobuttonKeep.Contains("Images"))
+                        {
+                            foreach (var list in listFile)
+                            {
+                                string extensions = System.IO.Path.GetExtension(list.path);
+                                string chemin = System.IO.Path.GetFullPath(list.path);
+
+                            }
+
+                        }
                     }
-                }
 
-                //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
-                string txtOrig = txtNameToSearch.Text;
-
-                //Convertie la valeur tapé dans la bar de recherche en majuscule
-                string upper = txtOrig.ToUpper();
-
-                //Convertie la valeur tapé dans la bar de recherche en minuscule
-                string lower = txtOrig.ToLower();
-
-
-                if (RetrieveList.RadiobuttonKeep != "Tout")
-                {
-                    if (RetrieveList.RadiobuttonKeep.Contains("Documents"))
+                    else
                     {
-                        //  var RadioCheck = RetrieveList.RadiobuttonKeep;
+                        //requete pour filtrer les fichier
+                        var fileFiltered = from file in listFile
+                                           let enamefile = file.filename
 
-                        var WordFiltered = from file in wordFile
-                                           let wordfile = file.content
-
-                                           where file.content != null
                                            //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
                                            where
-                                                     wordfile.StartsWith(lower)
-                                                  || wordfile.StartsWith(upper)
-                                                  || wordfile.Contains(txtOrig)
+                                                     enamefile.StartsWith(lower)
+                                                  || enamefile.StartsWith(upper)
+                                                  || enamefile.Contains(txtOrig)
+
 
                                            select file;
 
+                        //ajoute les fichiers filtré à la liste fileauthorFiltered
+                        listFileSearch.AddRange(fileFiltered);
 
-                        //ajoute les fichier word filtré à la liste wordFileSearch
-                        wordFileSearch.AddRange(WordFiltered);
+                        var fileauthorFiltered = from file in listFile
+                                                 let authorfile = file.author
 
-                        IEnumerable<WordDetails> sansDoublonWord = wordFileSearch.Distinct();
+                                                 where file.author != null
+                                                 //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                 where
+                                                           authorfile.StartsWith(lower)
+                                                        || authorfile.StartsWith(upper)
+                                                        || authorfile.Contains(txtOrig)
 
-                        FileList.ItemsSource = sansDoublonWord.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
+                                                 select file;
+
+                        //ajoute les fichiers filtré à la liste listFileSearch
+                        listFileSearch.AddRange(fileauthorFiltered);
+                        //enleve les doublon du au deux condition where          
+                        IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
+
+                        FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
                     }
-
-                    if (RetrieveList.RadiobuttonKeep.Contains("Images"))
-                    {
-                        foreach (var list in listFile)
-                        {
-                            string extensions = System.IO.Path.GetExtension(list.path);
-                            string chemin = System.IO.Path.GetFullPath(list.path);
-
-
-                        }
-
-                    }
-                }
-
-                else
-                {
-                    //requete pour filtrer les fichier
-                    var fileFiltered = from file in listFile
-                                       let enamefile = file.filename
-
-                                       //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
-                                       where
-                                                 enamefile.StartsWith(lower)
-                                              || enamefile.StartsWith(upper)
-                                              || enamefile.Contains(txtOrig)
-
-
-                                       select file;
-
-                    //ajoute les fichiers filtré à la liste fileauthorFiltered
-                    listFileSearch.AddRange(fileFiltered);
-
-                    var fileauthorFiltered = from file in listFile
-                                             let authorfile = file.author
-
-                                             where file.author != null
-                                             //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
-                                             where
-                                                       authorfile.StartsWith(lower)
-                                                    || authorfile.StartsWith(upper)
-                                                    || authorfile.Contains(txtOrig)
-
-                                             select file;
-
-                    //ajoute les fichiers filtré à la liste listFileSearch
-                    listFileSearch.AddRange(fileauthorFiltered);
-                    //enleve les doublon du au deux condition where          
-                    IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
-
-                    FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
                 }
             }
 
