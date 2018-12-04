@@ -145,8 +145,8 @@ namespace FilesFinder
 
                     }
                 }
-                //int num = allFile.Count;
-                //int num = 1;
+                int num = allFile.Count;
+                
             
 
                 RetrieveList.myList = allFile;
@@ -209,7 +209,7 @@ namespace FilesFinder
                 listFile = RetrieveList.myList.ToList();
 
                 {
-                    if (RetrieveList.RadiobuttonKeep.Contains("Documents"))
+                    if (RetrieveList.RadiobuttonKeep.Contains("Word"))
                     {
                         foreach (var list in listFile)
                         {
@@ -228,6 +228,14 @@ namespace FilesFinder
                             }
 
 
+                      
+                        }
+                    }
+                    if (RetrieveList.RadiobuttonKeep.Contains("PDF"))
+                    {
+                        foreach (var list in listFile)
+                        {
+
                             if (list.filename.ToString().Contains(".pdf"))
                             {
                                 //crée un objet contenant les details de l'image
@@ -240,13 +248,12 @@ namespace FilesFinder
                                 };
 
                                 PDFFile.Add(id);
-                                
                             }
                         }
                     }
 
-                    //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
-                    string txtOrig = txtNameToSearch.Text;
+                        //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
+                        string txtOrig = txtNameToSearch.Text;
 
                     //Convertie la valeur tapé dans la bar de recherche en majuscule
                     string upper = txtOrig.ToUpper();
@@ -257,7 +264,7 @@ namespace FilesFinder
 
                     if (RetrieveList.RadiobuttonKeep != "Tout")
                     {
-                        if (RetrieveList.RadiobuttonKeep.Contains("Documents"))
+                        if (RetrieveList.RadiobuttonKeep.Contains("Word"))
                         {
                             //  var RadioCheck = RetrieveList.RadiobuttonKeep;
 
@@ -375,13 +382,5 @@ namespace FilesFinder
         }
 
     }
-    public class DemoCustomer : System.ComponentModel.INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void update_quantity(int qty)
-        {
-
-        }
-    }
+   
 }
