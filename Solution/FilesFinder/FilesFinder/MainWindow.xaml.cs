@@ -15,6 +15,7 @@ using Spire.Doc;
 using Spire.Pdf;
 using Spire.Doc.Documents;
 using System.ComponentModel;
+using System.Windows.Media.Imaging;
 
 namespace FilesFinder
 {
@@ -93,10 +94,10 @@ namespace FilesFinder
         }
 
 
+    
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             
-
 
             FolderBrowserDialog dlg = new FolderBrowserDialog();
 
@@ -158,6 +159,57 @@ namespace FilesFinder
 
             }
         }
+
+
+        private void ImageButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            //récupère l'image cliquée
+            var clickedImage = (System.Windows.Controls.Image)e.OriginalSource;
+
+            //crée un objet newImage de la classe Image 
+            System.Windows.Controls.Image newImage = new System.Windows.Controls.Image();
+
+            //Assigne la valeur de l'image cliquée dans l'bjet newImage
+            newImage.Source = clickedImage.Source;
+
+            //récupère le chemin de l'image
+            string selectedFileName = clickedImage.Source.ToString();
+
+            //récupère le chemin de l'image a partir du disque C
+            selectedFileName = selectedFileName.Substring(selectedFileName.IndexOf("C"));
+
+            //recupère les metadata de l'image cliquée
+            GetTags(selectedFileName);
+
+            //remplie le FileNameLabel avec le nom de l'image
+//            FileNameLabel.Content = selectedFileName;
+
+            //crée un objet bitmapImage
+            BitmapImage bitmap = new BitmapImage();
+
+            //ouvre un stream pour l'image cliquée
+            FileStream stream = new FileStream(selectedFileName, FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite);
+
+            //initialise l'image
+            bitmap.BeginInit();
+
+            //met en cache l'intégralité de l'image lors du chargement
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+
+            //définie la source du flux de données de la BitmapImage
+            bitmap.StreamSource = stream;
+
+            //fin de l'initialisation de la BitmapImage
+            bitmap.EndInit();
+
+            //ferme et libère le stream
+            stream.Close();
+            stream.Dispose();
+           
+        }
+
+
+
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
 
@@ -165,10 +217,13 @@ namespace FilesFinder
                 {
                     FileDetails fl = FileList.SelectedItem as FileDetails;
                     System.Diagnostics.Process.Start(fl.path.ToString());
+         
                 }
              
                                         
         }
+
+
 
         List<FileDetails> listFileSearch = new List<FileDetails>();
 
@@ -182,6 +237,9 @@ namespace FilesFinder
 
         List<PDFdetails> PDFFileSearch = new List<PDFdetails>();
 
+        List<ImageDetails> imageFile = new List<ImageDetails>();
+
+        List<ImageDetails> imageFileSearch = new List<ImageDetails>();
         
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -202,6 +260,8 @@ namespace FilesFinder
             wordFile.Clear();
             PDFFile.Clear();
             PDFFileSearch.Clear();
+            imageFile.Clear();
+            imageFileSearch.Clear();
          
 
             if (RetrieveList.myList != null)
@@ -238,7 +298,7 @@ namespace FilesFinder
 
                             if (list.filename.ToString().Contains(".pdf"))
                             {
-                                //crée un objet contenant les details de l'image
+                                //crée un objet contenant les details du pdf
                                 PDFdetails id = new PDFdetails()
                                 {
 
@@ -252,8 +312,29 @@ namespace FilesFinder
                         }
                     }
 
-                        //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
-                        string txtOrig = txtNameToSearch.Text;
+
+                    if (RetrieveList.RadiobuttonKeep.Contains("Images"))
+                    {
+                        foreach (var list in listFile)
+                        {
+
+                            if (list.filename.ToString().Contains(".jpg")|| list.filename.ToString().Contains(".PNG"))
+                            {
+                                //crée un objet contenant les details du pdf
+                                ImageDetails id = new ImageDetails()
+                                {
+
+                                   FileName = list.filename,
+                                   Path = list.path,                             
+                                };
+
+                                imageFile.Add(id);
+                            }
+                        }
+                    }
+
+                    //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
+                    string txtOrig = txtNameToSearch.Text;
 
                     //Convertie la valeur tapé dans la bar de recherche en majuscule
                     string upper = txtOrig.ToUpper();
@@ -325,8 +406,27 @@ namespace FilesFinder
                         {
                             foreach (var list in listFile)
                             {
-                                string extensions = System.IO.Path.GetExtension(list.path);
-                                string chemin = System.IO.Path.GetFullPath(list.path);
+                                if (list.filename.Contains(".jpg"))
+                                {
+                                    //requete pour filtrer les fichier
+                                    var ImageFiltered = from file in imageFile
+                                                       let enamefile = file.FileName
+
+                                                       //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                       where
+                                                                 enamefile.StartsWith(lower)
+                                                              || enamefile.StartsWith(upper)
+                                                              || enamefile.Contains(txtOrig)
+
+
+                                                       select file;
+
+                                    //ajoute les fichiers filtré à la liste fileauthorFiltered
+                                    imageFileSearch.AddRange(ImageFiltered);
+                                    IEnumerable<ImageDetails> sansDoublon = imageFileSearch.Distinct();
+
+                                    FileList.ItemsSource = sansDoublon.OrderBy(ImageDetails => ImageDetails.FileName).ToObservableCollection();
+                                }
 
                             }
 
@@ -381,6 +481,7 @@ namespace FilesFinder
 
         }
 
+    
     }
    
 }
