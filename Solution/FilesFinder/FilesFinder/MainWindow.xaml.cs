@@ -215,12 +215,31 @@ namespace FilesFinder
 
                 if(e.ChangedButton == MouseButton.Left)
                 {
-                    FileDetails fl = FileList.SelectedItem as FileDetails;
+                FileDetails fl = FileList.SelectedItem as FileDetails;
+                ImageDetails Il = FileList.SelectedItem as ImageDetails;
+                WordDetails Wl = FileList.SelectedItem as WordDetails;
+                PDFdetails Pl = FileList.SelectedItem as PDFdetails;
+                if(fl != null)
+                {
                     System.Diagnostics.Process.Start(fl.path.ToString());
-         
                 }
-             
-                                        
+              if(Il != null)
+                {
+                    System.Diagnostics.Process.Start(Il.Path.ToString());
+                }
+
+                if (Wl != null)
+                {
+                    System.Diagnostics.Process.Start(Wl.path.ToString());
+                }
+
+                if (Pl != null)
+                {
+                    System.Diagnostics.Process.Start(Wl.path.ToString());
+                }
+
+
+            }                                           
         }
 
 
@@ -280,7 +299,9 @@ namespace FilesFinder
                                 {
 
                                     content = GetWord(list.path.ToString()),
-                                    name = list.filename
+                                    name = list.filename,
+                                    path = list.path
+                             
 
                                 };
                                 wordFile.Add(id);
@@ -303,7 +324,9 @@ namespace FilesFinder
                                 {
 
                                     content = GetPDF(list.path.ToString()),
-                                    name = list.filename
+                                    name = list.filename,
+                                    path = list.path
+                                    
 
                                 };
 

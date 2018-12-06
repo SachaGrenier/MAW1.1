@@ -10,5 +10,7 @@ namespace FilesFinder.Model
     {
         public string name { get; set; }
         public string content { get; set; }
+
+        public string path { get; set; }
     }
 }
