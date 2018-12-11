@@ -97,9 +97,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\AudioDetails.cs" />
     <Compile Include="Model\ImageDetails.cs" />
     <Compile Include="Model\PDFdetails.cs" />
     <Compile Include="Model\RetrieveList.cs" />
+    <Compile Include="Model\VideoDetails.cs" />
     <Compile Include="UriToBitmapConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

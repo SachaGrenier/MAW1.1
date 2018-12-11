@@ -21,22 +21,31 @@ namespace FilesFinder
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
+    /// </summary>   
     public partial class MainWindow : System.Windows.Window 
     {
+
         //sets reference for filter
         private string Filter = null;
 
         //lists of extentions accepted when filtered
-        List<string> Extentions_Image = new List<string>(new string[] { "bmp", "gif", "ico", "jpeg", "jpg", "png" });
-        List<string> Extentions_Audio = new List<string>(new string[] { "mp3", "aac", "flac", "ogg" });
+        List<string> Extentions_Image = new List<string>(new string[] { ".bmp", ".gif", ".ico", ".jpeg", ".jpg", ".png" });
+        List<string> Extentions_Audio = new List<string>(new string[] { ".mp3", ".aac", ".flac", ".ogg" });
         List<string> Extentions_Document = new List<string>(new string[] { "csv", "dot", "html", "md", "odm", "gdoc", "dot", "dotx", "doc", "docx", "xml" });
         List<string> Extentions_Video = new List<string>(new string[] { "flv", "cam", "mov", "mpeg", "mkv", "webm", "gif", "avi", "mpg" });
 
         public MainWindow()
         {
             InitializeComponent();
+            BrowseButton_Click(null,null);
         }
+        public int CountElement(int num)
+        {
+            NumberArray.Text = num.ToString() + " élément" + (num > 1 ? "s" : "") + " trouvé" + (num > 1 ? "s" : "");
+            return num;
+         
+        }
+        
         public string GetTags(string path)
         {
             var fs = File.GetAccessControl(path);
@@ -97,8 +106,8 @@ namespace FilesFinder
     
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-            
 
+          
             FolderBrowserDialog dlg = new FolderBrowserDialog();
 
             //ouvre l'exlporateur de fichier
@@ -137,7 +146,8 @@ namespace FilesFinder
                         {
                             filename = fi.Name,
                             path = fi.ToString(),
-                            author = GetTags(fi.ToString())
+                            author = GetTags(fi.ToString()),
+                            extension = fi.Extension
 
 
                         };
@@ -148,17 +158,20 @@ namespace FilesFinder
                 }
                 int num = allFile.Count;
                 
-            
-
+           
                 RetrieveList.myList = allFile;
         
                 //Remplit le tableau de donnée avec les fichiers trouvé
                 FileList.ItemsSource = allFile;
-
-                NumberArray.Text = num.ToString() + " élément"+ (num > 1 ? "s" : "") +" trouvé"+(num > 1 ? "s" : "" );
+                CountElement(num);
 
             }
         }
+
+
+
+
+
 
 
         private void ImageButton_Click(object sender, MouseButtonEventArgs e)
@@ -259,7 +272,15 @@ namespace FilesFinder
         List<ImageDetails> imageFile = new List<ImageDetails>();
 
         List<ImageDetails> imageFileSearch = new List<ImageDetails>();
-        
+
+        List<AudioDetails> audioFile = new List<AudioDetails>();
+
+        List<AudioDetails> audioFileSearch = new List<AudioDetails>();
+
+        List<VideoDetails> videoFile = new List<VideoDetails>();
+
+        List<VideoDetails> videoFileSearch = new List<VideoDetails>();
+
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -267,10 +288,42 @@ namespace FilesFinder
             var button = sender as System.Windows.Controls.RadioButton;
             // ... Display button content as title.
             Filter = button.Content.ToString();
+            if( RetrieveList.myList != null)
+            {
+                if (Filter == "Tout")
+                {
+                    FileList.ItemsSource = RetrieveList.myList;
+                }
+                else if (Filter == "Images")
+                {
+                    FileList.ItemsSource = RetrieveList.myimageList;
+                }
+                else if (Filter == "Audio")
+                {
+                    FileList.ItemsSource = RetrieveList.myaudioList;
+                }
+                else if (Filter == "Word")
+                {
+                    FileList.ItemsSource = RetrieveList.mywordList;
+                }
+                else if (Filter == "PDF")
+                {
+                    FileList.ItemsSource = RetrieveList.mypdfList;
+                }
+            }
+          
+
+            //FileList.ItemsSource = RetrieveList.myList;
 
             RetrieveList.RadiobuttonKeep = Filter;
         }
-       
+
+        public void makeList()
+        {
+
+            
+        }
+
 
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -281,17 +334,23 @@ namespace FilesFinder
             PDFFileSearch.Clear();
             imageFile.Clear();
             imageFileSearch.Clear();
-         
+            audioFile.Clear();
+            audioFileSearch.Clear();
+            FileList.ItemsSource = null;
+            CountElement(0);
+
 
             if (RetrieveList.myList != null)
             {
                 listFile = RetrieveList.myList.ToList();
-
+             
                 {
                     if (RetrieveList.RadiobuttonKeep.Contains("Word"))
                     {
                         foreach (var list in listFile)
                         {
+
+
                             if (list.filename.ToString().Contains(".doc"))
                             {
                                 //crée un objet contenant les details de l'image
@@ -307,9 +366,7 @@ namespace FilesFinder
                                 wordFile.Add(id);
 
                             }
-
-
-                      
+                            RetrieveList.mywordList = wordFile.ToObservableCollection();
                         }
                     }
                     if (RetrieveList.RadiobuttonKeep.Contains("PDF"))
@@ -332,16 +389,17 @@ namespace FilesFinder
 
                                 PDFFile.Add(id);
                             }
+                            RetrieveList.mypdfList = PDFFile.ToObservableCollection();
                         }
                     }
-
 
                     if (RetrieveList.RadiobuttonKeep.Contains("Images"))
                     {
                         foreach (var list in listFile)
                         {
+                          
 
-                            if (list.filename.ToString().Contains(".jpg")|| list.filename.ToString().Contains(".PNG"))
+                            if (Extentions_Image.Any(list.filename.Contains))
                             {
                                 //crée un objet contenant les details du pdf
                                 ImageDetails id = new ImageDetails()
@@ -353,6 +411,53 @@ namespace FilesFinder
 
                                 imageFile.Add(id);
                             }
+                            RetrieveList.myimageList = imageFile.ToObservableCollection();
+                        }
+                    }
+
+                    if (RetrieveList.RadiobuttonKeep.Contains("Audio"))
+                    {
+                        foreach (var list in listFile)
+                        {
+                            var test = list.extension;
+                            if (Extentions_Audio.Any(list.filename.Contains))
+                            {
+                                //crée un objet contenant les details du fichier audio
+                                AudioDetails id = new AudioDetails()
+                                {
+
+                                    FileName = list.filename,
+                                    Path = list.path,
+                                    Extension = list.extension
+                                    
+                                };
+
+                                audioFile.Add(id);
+                            }
+
+                            RetrieveList.myaudioList = audioFile.ToObservableCollection();
+                        }
+                    }
+
+                    if (RetrieveList.RadiobuttonKeep.Contains("Video"))
+                    {
+                        foreach (var list in listFile)
+                        {
+
+                            if (Extentions_Video.Any(list.filename.ToString().Contains))
+                            {
+                                //crée un objet contenant les details du fichier audio
+                                VideoDetails id = new VideoDetails
+                                {
+
+                                    FileName = list.filename,
+                                    Path = list.path,
+                                };
+
+                                videoFile.Add(id);
+                            }
+
+                            RetrieveList.myvideoList = videoFile.ToObservableCollection();
                         }
                     }
 
@@ -389,13 +494,11 @@ namespace FilesFinder
                             wordFileSearch.AddRange(WordFiltered);
                         
                             IEnumerable<WordDetails> sansDoublonWord = wordFileSearch.Distinct();
-                          
 
+                            int num = sansDoublonWord.Count();
                             FileList.ItemsSource = sansDoublonWord.OrderBy(WordDetails => WordDetails.name).ToObservableCollection();
-
-                           
-
-                            //  var RadioCheck = RetrieveList.RadiobuttonKeep;
+                            CountElement(num);
+                         
 
                         }
 
@@ -420,8 +523,11 @@ namespace FilesFinder
                             PDFFileSearch.AddRange(PDFFiltered);
 
                             IEnumerable<PDFdetails> sansDoublonPDF = PDFFileSearch.Distinct();
-
+                            //count the number of element
+                            int num = sansDoublonPDF.Count();
                             FileList.ItemsSource = sansDoublonPDF.OrderBy(PDFdetails => PDFdetails.name).ToObservableCollection();
+                            //display the number of element
+                            CountElement(num);
 
                         }
 
@@ -429,7 +535,7 @@ namespace FilesFinder
                         {
                             foreach (var list in listFile)
                             {
-                                if (list.filename.Contains(".jpg"))
+                                if (Extentions_Image.Any(list.filename.Contains))
                                 {
                                     //requete pour filtrer les fichier
                                     var ImageFiltered = from file in imageFile
@@ -448,11 +554,73 @@ namespace FilesFinder
                                     imageFileSearch.AddRange(ImageFiltered);
                                     IEnumerable<ImageDetails> sansDoublon = imageFileSearch.Distinct();
 
+                                    int num = sansDoublon.Count();
                                     FileList.ItemsSource = sansDoublon.OrderBy(ImageDetails => ImageDetails.FileName).ToObservableCollection();
+                                    CountElement(num);
                                 }
 
                             }
 
+                        }
+
+                        if (RetrieveList.RadiobuttonKeep.Contains("Audio"))
+                        {
+                            foreach (var list in listFile)
+                            {
+                                if (Extentions_Audio.Any(list.extension.Contains))
+                                {
+                                    //requete pour filtrer les fichier
+                                    var AudioFiltered = from file in audioFile
+                                                        let enamefile = file.FileName
+
+                                                        //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                        where
+                                                                  enamefile.StartsWith(lower)
+                                                               || enamefile.StartsWith(upper)
+                                                               || enamefile.Contains(txtOrig)
+
+
+                                                        select file;
+
+                                    //ajoute les fichiers filtré à la liste fileauthorFiltered
+                                    audioFileSearch.AddRange(AudioFiltered);
+                                    IEnumerable<AudioDetails> sansDoublon = audioFileSearch.Distinct();
+
+                                    int num = sansDoublon.Count();
+                                    FileList.ItemsSource = sansDoublon.OrderBy(AudioDetails => AudioDetails.FileName).ToObservableCollection();
+                                    CountElement(num);
+                                }
+                            }
+                        }
+
+                        if (RetrieveList.RadiobuttonKeep.Contains("Video"))
+                        {
+                            foreach (var list in listFile)
+                            {
+                                if (Extentions_Video.Any(list.filename.ToString().Contains))
+                                {
+                                    //requete pour filtrer les fichier
+                                    var VideoFiltered = from file in videoFile
+                                                        let enamefile = file.FileName
+
+                                                        //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                        where
+                                                                  enamefile.StartsWith(lower)
+                                                               || enamefile.StartsWith(upper)
+                                                               || enamefile.Contains(txtOrig)
+
+
+                                                        select file;
+
+                                    //ajoute les fichiers filtré à la liste fileauthorFiltered
+                                    videoFileSearch.AddRange(VideoFiltered);
+                                    IEnumerable<VideoDetails> sansDoublon = videoFileSearch.Distinct();
+
+                                    int num = sansDoublon.Count();
+                                    FileList.ItemsSource = sansDoublon.OrderBy(VideoDetails => VideoDetails.FileName).ToObservableCollection();
+                                    CountElement(num);
+                                }
+                            }
                         }
                     }
 
@@ -490,8 +658,12 @@ namespace FilesFinder
                         listFileSearch.AddRange(fileauthorFiltered);
                         //enleve les doublon du au deux condition where          
                         IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
+                        int num = sansDoublon.Count();
 
                         FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
+
+                        CountElement(num);                     
+
                     }
                 }
             }
