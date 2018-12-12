@@ -14,5 +14,7 @@ namespace FilesFinder.Model
 
         //le chemin complet
         public string Path { get; set; }
+
+        public string folderPath { get; set; }
     }
 }

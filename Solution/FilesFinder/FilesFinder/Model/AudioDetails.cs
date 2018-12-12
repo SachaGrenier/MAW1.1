@@ -17,5 +17,7 @@ namespace FilesFinder.Model
 
         public string Extension { get; set; }
 
+        public string folderPath { get; set; }
+
     }
 }
