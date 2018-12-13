@@ -69,7 +69,7 @@ En ce qui concerne le visuel de l’application, nous avons créé des maquettes
 ![maq_1](P:\MAW1.1\Documentation\Maquette\maq_1.png)
 <span style='color:orange'>Ce bouton permet de choisir un autre répertoire source</span>
 3. Ici, on recherche « documents.docx ». Etant donné qu’il n’existe pas, aucun résultat n’apparait.
-  ![maq_2](P:\MAW1.1\Documentation\Maquette\maq_2.png)
+    ![maq_2](P:\MAW1.1\Documentation\Maquette\maq_2.png)
 4. On recherche maintenant « mondocument » et plusieurs résultats apparaissent. 
 ![maq_3](P:\MAW1.1\Documentation\Maquette\maq_3.png)
 5. On applique le filtre documents et on clique sur le document qui nous intéresse. On peut voir à droite qu’une fenêtre avec un aperçu du contenu du document est apparue.
@@ -187,6 +187,27 @@ Il s'agit d'un programme en C# développé avec Visual Studio, donc pour l'insta
 Le programme à été compilé à sa dernière version alors vous pourrez jouir de ses toutes dernières fonctionnalités
 
 ## Tests
+
+| Fonctionnalité   à tester                                    | Résultat attendu                                             | Date    | Résultat obtenu                                           | Etat |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------- | --------------------------------------------------------- | ---- |
+| Clic sur le bouton "Parcourir"                               | Une fenêtre s'ouvre et l'utilisateur peut sélectionner un dossier à exploiter | 11 déc. | La fenêtre s'ouvre correctement, l'arborescence s'affiche | OK   |
+| Lancer l'application                                         | Une recherche de dossier s'ouvre                             | 13 dec. | La fenêtre s'ouvre                                        | OK   |
+| Sélection du dossier                                         | Affichage du dossier                                         | 13 déc. | Le contenu du dossier s'affiche                           | Ok   |
+| Recherche du fichier   "index"                               | Les fichiers dont le nom contient "index" s'affichent        | 13 déc. | Les fichiers s'affichent                                  | OK   |
+| Ouverture du fichier                                         | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre ou propose un programme                | OK   |
+| Clique droit sur l'élément de la liste+ Ouvrir l'emplacement du fichier | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                        | OK   |
+| Filtre des fichier                                           | Les fichiers du type s'affichent                             | 13 déc. | Les fichiers s'affichent en fonction de leurs type        | OK   |
+| Ouvrir le fichier                                            | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre avec le programme par défaut           | OK   |
+| Clique droit + afficher le   dossier                         | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                        | OK   |
+| Sélectionner un nouveau   dossier                            | Affichage du dossier                                         | 13 déc. | Le dossier s'affiche                                      | OK   |
+| Recherche du fichier   "index"                               | Les fichiers "index" s'affichent                             | 13 déc. | Les fichiers s'affichent                                  | OK   |
+| Ouverture du fichier                                         | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre ou propose un programme                | OK   |
+| Clique droit + afficher le   dossier                         | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                        | OK   |
+| Filtre des fichier                                           | Les fichiers du type s'affichent                             | 13 déc. | Les fichiers s'affichent après une nouvelle recherche     | OK   |
+| Ouvrir le fichier                                            | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre                                        | OK   |
+| Clique droit + afficher le   dossier                         | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                        | OK   |
+| Lancer l'application sans   choisir de dossier source        | L'application se lance sans dossier                          | 13 déc. | L'application se lance                                    | OK   |
+
 ## Conclusion
 ### Bilan des fonctionnalités demandées
 
