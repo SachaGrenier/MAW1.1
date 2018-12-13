@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace FilesFinder.Model
 {
@@ -15,5 +11,11 @@ namespace FilesFinder.Model
         public string author { get; set; }
 
         public string path { get; set; }
+
+        public string extension { get; set; }
+
+        public string folderPath { get; set; }
+
+
     }
 }
