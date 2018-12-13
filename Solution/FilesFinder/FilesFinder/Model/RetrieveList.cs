@@ -8,8 +8,8 @@ namespace FilesFinder
     //paramètre statique pour garder une liste de fichiers en memoire
     public class RetrieveList
     {
-       
-            public static ObservableCollection<FileDetails> myList { get; set; }
+
+        public static ObservableCollection<FileDetails> myList { get; set; }
 
         public static ObservableCollection<AudioDetails> myaudioList { get; set; }
 
@@ -20,12 +20,15 @@ namespace FilesFinder
         public static ObservableCollection<VideoDetails> myvideoList { get; set; }
 
         public static ObservableCollection<WordDetails> mywordList { get; set; }
+
+        public static ObservableCollection<OtherDetails> myotherList { get; set; }
+
         public static string DateList { get; set; }
-            public static string DateModificate { get; set; }
+        public static string DateModificate { get; set; }
 
-            public static string RadiobuttonKeep { get; set; }
+        public static string RadiobuttonKeep { get; set; }
 
-        
+
 
     }
 }
