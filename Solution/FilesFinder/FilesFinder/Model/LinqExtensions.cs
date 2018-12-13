@@ -6,7 +6,7 @@ namespace FilesFinder
 {
     public static class LinqExtensions
     {
-        //convertie un élément en ObservableCollection
+        //Convert an element into a ObservableCollection
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> _LinqResult)
         {
             return new ObservableCollection<T>(_LinqResult);

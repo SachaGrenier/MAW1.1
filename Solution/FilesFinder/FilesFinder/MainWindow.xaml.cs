@@ -69,7 +69,6 @@ namespace FilesFinder
             InitializeComponent();
             BrowseButton_Click(null, null);
 
-
         }
 
         //Counts the quantity of elements display in the datagrid
@@ -316,8 +315,6 @@ namespace FilesFinder
 
             if (RetrieveList.RadiobuttonKeep.Contains("Autres"))
             {
-
-
                 if (RetrieveList.myotherList != null)
                 {
                     RetrieveList.myotherList.Clear();

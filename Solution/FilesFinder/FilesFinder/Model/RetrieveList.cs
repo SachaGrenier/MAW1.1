@@ -5,10 +5,9 @@ using FilesFinder.Model;
 
 namespace FilesFinder
 {
-    //paramètre statique pour garder une liste de fichiers en memoire
+    //static parameter in order to keep a list of file in memory
     public class RetrieveList
     {
-
         public static ObservableCollection<FileDetails> myList { get; set; }
 
         public static ObservableCollection<AudioDetails> myaudioList { get; set; }
