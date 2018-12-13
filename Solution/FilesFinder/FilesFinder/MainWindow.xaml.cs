@@ -71,6 +71,8 @@ namespace FilesFinder
 
 
         }
+
+        //Counts the quantity of elements display in the datagrid
         public int CountElement(int num)
         {
             NumberArray.Text = num.ToString() + " élément" + (num > 1 ? "s" : "") + " trouvé" + (num > 1 ? "s" : "");
@@ -78,6 +80,8 @@ namespace FilesFinder
 
         }
 
+
+        //Gets the metadata of file
         public string GetTags(string path)
         {
             var fs = File.GetAccessControl(path);
@@ -86,14 +90,13 @@ namespace FilesFinder
 
             var ntAccount = sid.Translate(typeof(NTAccount));
 
-            //découpe le nom avant et après le character "_"
             var name = ntAccount.Value.Split('\\');
 
             return name[1];
 
         }
 
-
+        //Allows to read inside a word document to find specific text inside the document
         public string GetWord(string path)
         {
 
@@ -113,6 +116,7 @@ namespace FilesFinder
 
 
         }
+        //Allows to read inside a PDF to find specific text inside the document
         public string GetPDF(string path)
         {
             StringBuilder text = new StringBuilder();
@@ -134,6 +138,7 @@ namespace FilesFinder
             return text.ToString();
         }
 
+        //Clears all list in order to back to square one 
         public void ClearList()
         {
             listFileSearch.Clear();
@@ -150,6 +155,9 @@ namespace FilesFinder
             otherFile.Clear();
             otherFileSearch.Clear();
         }
+
+
+        //Creates the datalist model
         public void makeList()
         {
             listFile = RetrieveList.myList.ToList();
@@ -163,9 +171,9 @@ namespace FilesFinder
                 wordFile.Clear();
                 foreach (var list in listFile)
                 {
-                    if (list.filename.ToString().Contains(".doc"))
+                    if (list.filename.ToString().ToLower().Contains(".doc"))
                     {
-                        //crée un objet contenant les details de l'image
+                        
                         WordDetails id = new WordDetails()
                         {
 
@@ -192,9 +200,9 @@ namespace FilesFinder
                 PDFFile.Clear();
                 foreach (var list in listFile)
                 {
-                    if (list.filename.ToString().Contains(".pdf"))
+                    if (list.filename.ToString().ToLower().Contains(".pdf"))
                     {
-                        //crée un objet contenant les details du pdf
+                       
                         PDFdetails id = new PDFdetails()
                         {
 
@@ -224,9 +232,9 @@ namespace FilesFinder
                 imageFile.Clear();
                 foreach (var list in listFile)
                 {
-                    if (Extentions_Image.Any(list.filename.Contains))
+                    if (Extentions_Image.Any(list.filename.ToLower().Contains))
                     {
-                        //crée un objet contenant les details de l'image
+                       
                         ImageDetails id = new ImageDetails()
                         {
 
@@ -255,9 +263,9 @@ namespace FilesFinder
                 foreach (var list in listFile)
                 {
 
-                    if (Extentions_Audio.Any(list.filename.Contains))
+                    if (Extentions_Audio.Any(list.filename.ToLower().Contains))
                     {
-                        //crée un objet contenant les details du fichier audio
+                        
                         AudioDetails id = new AudioDetails()
                         {
 
@@ -286,9 +294,9 @@ namespace FilesFinder
                 foreach (var list in listFile)
                 {
 
-                    if (Extentions_Video.Any(list.filename.ToString().Contains))
+                    if (Extentions_Video.Any(list.filename.ToString().ToLower().Contains))
                     {
-                        //crée un objet contenant les details du fichier audio
+                        
                         VideoDetails id = new VideoDetails
                         {
                             FileName = list.filename,
@@ -318,11 +326,10 @@ namespace FilesFinder
 
                 foreach (var list in listFile)
                 {
-
-
-                    if (!Extentions_All.Any(list.filename.ToString().Contains))
+                 
+                    if (!Extentions_All.Any(list.filename.ToString().ToLower().Contains))
                     {
-                        //crée un objet contenant les details du fichier audio
+                      
                         OtherDetails id = new OtherDetails
                         {
 
@@ -343,15 +350,14 @@ namespace FilesFinder
 
         }
 
-
+        //Select the source directory and display it 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
-
-            //ouvre l'exlporateur de fichier
+            
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                //defini le dossier choisi
+                
                 DirectoryInfo d = new DirectoryInfo(dlg.SelectedPath);
                 ObservableCollection<FileDetails> allFile = new ObservableCollection<FileDetails>();
                 Directory.SetCurrentDirectory(dlg.SelectedPath);
@@ -374,8 +380,7 @@ namespace FilesFinder
                         {
                             continue;
                         }
-
-                        //crée un objet contenant les details de l'image
+                        
                         FileDetails id = new FileDetails()
                         {
                             filename = fi.Name,
@@ -393,14 +398,13 @@ namespace FilesFinder
 
                 int num = allFile.Count;
                 RetrieveList.myList = allFile;
-                CountElement(num);
-                //Remplit le tableau de donnée avec les fichiers trouvé
+                CountElement(num);               
                 FileList.ItemsSource = allFile;
 
             }
         }
 
-
+        //Open the directory of the selected file
         private void Row_RightClick(object sender, RoutedEventArgs e)
         {
             FileDetails fl = FileList.SelectedItem as FileDetails;
@@ -447,6 +451,7 @@ namespace FilesFinder
 
         }
 
+        //Open the selected file with the corresponding program
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -501,6 +506,7 @@ namespace FilesFinder
             }
         }
 
+        //Keeps in memory the selected radiobutton, check if there is text in the searchbox and refreshes the datagrid with the returned data
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             // ... Get RadioButton reference.
@@ -520,43 +526,96 @@ namespace FilesFinder
                 {
 
                     makeList();
-                    FileList.ItemsSource = RetrieveList.myimageList;
+                    if (txtNameToSearch.Text != null)
+                    {
+                        txtNameToSearch_TextChanged(null,null);
+                    }
+                    else
+                    {
+                        FileList.ItemsSource = RetrieveList.myimageList;
+                    }
+                    
 
                 }
                 else if (Filter == "Audio")
                 {
                     makeList();
-                    FileList.ItemsSource = RetrieveList.myaudioList;
+                    if (txtNameToSearch.Text != null)
+                    {
+                        txtNameToSearch_TextChanged(null, null);
+                    }
+                    else
+                    {
+                        FileList.ItemsSource = RetrieveList.myaudioList;
+                    }
+                    
 
                 }
                 else if (Filter == "Word")
                 {
                     makeList();
-                    FileList.ItemsSource = RetrieveList.mywordList;
+
+                    if (txtNameToSearch.Text != null)
+                    {
+                        txtNameToSearch_TextChanged(null, null);
+                    }
+                    else
+                    {
+                        FileList.ItemsSource = RetrieveList.mywordList;
+                    }
+                    
 
                 }
                 else if (Filter == "PDF")
                 {
                     makeList();
-                    FileList.ItemsSource = RetrieveList.mypdfList;
+
+                    if (txtNameToSearch.Text != null)
+                    {
+                        txtNameToSearch_TextChanged(null, null);
+                    }
+                    else
+                    {
+                        FileList.ItemsSource = RetrieveList.mypdfList;
+                    }
+               
 
                 }
                 else if (Filter == "Vidéos")
                 {
                     makeList();
-                    FileList.ItemsSource = RetrieveList.myvideoList;
+
+                    if (txtNameToSearch.Text != null)
+                    {
+                        txtNameToSearch_TextChanged(null, null);
+                    }
+                    else
+                    {
+                        FileList.ItemsSource = RetrieveList.myvideoList;
+                    }
+                   
 
                 }
                 else if (Filter == "Autres")
                 {
                     makeList();
-                    FileList.ItemsSource = RetrieveList.myotherList;
+
+                    if (txtNameToSearch.Text != null)
+                    {
+                        txtNameToSearch_TextChanged(null, null);
+                    }
+                    else
+                    {
+                        FileList.ItemsSource = RetrieveList.myotherList;
+                    }
+                 
 
                 }
             }
 
         }
 
+        //Search the file corresponding with the typed text in the searchbox and return the result
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -570,13 +629,12 @@ namespace FilesFinder
                 {
                     makeList();
 
-                    //assigne la valeur tapé dans la bar de recherche à la variable txtOrig
+                    
                     string txtOrig = txtNameToSearch.Text;
 
-                    //Convertie la valeur tapé dans la bar de recherche en majuscule
+                 
                     string upper = txtOrig.ToUpper();
 
-                    //Convertie la valeur tapé dans la bar de recherche en minuscule
                     string lower = txtOrig.ToLower();
 
 
@@ -584,13 +642,13 @@ namespace FilesFinder
                     {
                         if (RetrieveList.RadiobuttonKeep.Contains("Word"))
                         {
-                            //  var RadioCheck = RetrieveList.RadiobuttonKeep;
+                       
 
                             var WordFiltered = from file in wordFile
                                                let wordfile = file.content
 
                                                where file.content != null
-                                               //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                
                                                where
                                                          wordfile.StartsWith(lower)
                                                       || wordfile.StartsWith(upper)
@@ -599,7 +657,7 @@ namespace FilesFinder
                                                select file;
 
 
-                            //ajoute les fichier word filtré à la liste wordFileSearch
+                            
                             wordFileSearch.AddRange(WordFiltered);
 
                             IEnumerable<WordDetails> sansDoublonWord = wordFileSearch.Distinct();
@@ -619,7 +677,7 @@ namespace FilesFinder
                                               let PDFFile = file.content
 
                                               where file.content != null
-                                              //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                          
                                               where
                                                         PDFFile.StartsWith(lower)
                                                      || PDFFile.StartsWith(upper)
@@ -628,14 +686,13 @@ namespace FilesFinder
                                               select file;
 
 
-                            //ajoute les fichier pdf filtré à la liste wordFileSearch
                             PDFFileSearch.AddRange(PDFFiltered);
 
                             IEnumerable<PDFdetails> sansDoublonPDF = PDFFileSearch.Distinct();
-                            //count the number of element
+                   
                             int num = sansDoublonPDF.Count();
                             FileList.ItemsSource = sansDoublonPDF.OrderBy(PDFdetails => PDFdetails.name).ToObservableCollection();
-                            //display the number of element
+                          
                             CountElement(num);
 
                         }
@@ -646,11 +703,11 @@ namespace FilesFinder
                             {
                                 if (Extentions_Image.Any(list.extension.Contains))
                                 {
-                                    //requete pour filtrer les fichier
+                                  
                                     var ImageFiltered = from file in imageFile
                                                         let enamefile = file.FileName
 
-                                                        //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                       
                                                         where
                                                                   enamefile.StartsWith(lower)
                                                                || enamefile.StartsWith(upper)
@@ -659,7 +716,7 @@ namespace FilesFinder
 
                                                         select file;
 
-                                    //ajoute les fichiers filtré à la liste fileauthorFiltered
+                                
                                     imageFileSearch.AddRange(ImageFiltered);
                                     IEnumerable<ImageDetails> sansDoublon = imageFileSearch.Distinct();
 
@@ -678,11 +735,11 @@ namespace FilesFinder
                             {
                                 if (Extentions_Audio.Any(list.extension.Contains))
                                 {
-                                    //requete pour filtrer les fichier
+                                 
                                     var AudioFiltered = from file in audioFile
                                                         let enamefile = file.FileName
 
-                                                        //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                  
                                                         where
                                                                   enamefile.StartsWith(lower)
                                                                || enamefile.StartsWith(upper)
@@ -691,7 +748,7 @@ namespace FilesFinder
 
                                                         select file;
 
-                                    //ajoute les fichiers filtré à la liste fileauthorFiltered
+                                
                                     audioFileSearch.AddRange(AudioFiltered);
                                     IEnumerable<AudioDetails> sansDoublon = audioFileSearch.Distinct();
 
@@ -708,11 +765,11 @@ namespace FilesFinder
                             {
                                 if (Extentions_Video.Any(list.extension.Contains))
                                 {
-                                    //requete pour filtrer les fichier
+                              
                                     var VideoFiltered = from file in videoFile
                                                         let enamefile = file.FileName
 
-                                                        //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                    
                                                         where
                                                                   enamefile.StartsWith(lower)
                                                                || enamefile.StartsWith(upper)
@@ -721,7 +778,6 @@ namespace FilesFinder
 
                                                         select file;
 
-                                    //ajoute les fichiers filtré à la liste fileauthorFiltered
                                     videoFileSearch.AddRange(VideoFiltered);
                                     IEnumerable<VideoDetails> sansDoublon = videoFileSearch.Distinct();
 
@@ -739,11 +795,11 @@ namespace FilesFinder
                             {
                                 if (Extentions_All.Any(list.extension.Contains))
                                 {
-                                    //requete pour filtrer les fichier
+                              
                                     var OtherFiltered = from file in otherFile
                                                         let enamefile = file.FileName
 
-                                                        //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                        
                                                         where
                                                                   enamefile.StartsWith(lower)
                                                                || enamefile.StartsWith(upper)
@@ -752,7 +808,7 @@ namespace FilesFinder
 
                                                         select file;
 
-                                    //ajoute les fichiers filtré à la liste fileauthorFiltered
+                                    
                                     otherFileSearch.AddRange(OtherFiltered);
                                     IEnumerable<OtherDetails> sansDoublon = otherFileSearch.Distinct();
                                     int num = sansDoublon.Count();
@@ -765,11 +821,11 @@ namespace FilesFinder
 
                     else
                     {
-                        //requete pour filtrer les fichier
+                    
                         var fileFiltered = from file in listFile
                                            let enamefile = file.filename
 
-                                           //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                          
                                            where
                                                      enamefile.StartsWith(lower)
                                                   || enamefile.StartsWith(upper)
@@ -778,14 +834,14 @@ namespace FilesFinder
 
                                            select file;
 
-                        //ajoute les fichiers filtré à la liste fileauthorFiltered
+              
                         listFileSearch.AddRange(fileFiltered);
 
                         var fileauthorFiltered = from file in listFile
                                                  let authorfile = file.author
 
                                                  where file.author != null
-                                                 //filtre avec ce que l'utilisateur a tapé dans la bar de recherche    
+                                                  
                                                  where
                                                            authorfile.StartsWith(lower)
                                                         || authorfile.StartsWith(upper)
@@ -793,9 +849,8 @@ namespace FilesFinder
 
                                                  select file;
 
-                        //ajoute les fichiers filtré à la liste listFileSearch
                         listFileSearch.AddRange(fileauthorFiltered);
-                        //enleve les doublon du au deux condition where          
+                      
                         IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
                         int num = sansDoublon.Count();
                         FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
