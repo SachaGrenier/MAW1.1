@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace FilesFinder.Model
 {
-    public class WordDetails
+   public class VideoDetails
     {
-        public string name { get; set; }
-        public string content { get; set; }
+        //le nom du fichier video        
+        public string FileName { get; set; }
 
-        public string path { get; set; }
+
+        //le chemin complet
+        public string Path { get; set; }
 
         public string folderPath { get; set; }
     }
