@@ -8,11 +8,10 @@ namespace FilesFinder.Model
 {
    public class VideoDetails
     {
-        //le nom du fichier video        
+       
         public string FileName { get; set; }
 
-
-        //le chemin complet
+     
         public string Path { get; set; }
 
         public string folderPath { get; set; }
