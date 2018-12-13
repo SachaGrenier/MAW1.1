@@ -22,7 +22,11 @@ namespace FilesFinder
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
+<<<<<<< HEAD
+    /// </summary>
+=======
     /// </summary>   
+>>>>>>> c00cfe6b5462400346acf10ee317592fdbffc3a5
     public partial class MainWindow : System.Windows.Window
     {
         List<FileDetails> listFileSearch = new List<FileDetails>();
@@ -102,6 +106,8 @@ namespace FilesFinder
             return text.ToString();
         }
 
+<<<<<<< HEAD
+=======
         public string GetPDF(string path)
         {
 
@@ -147,7 +153,7 @@ namespace FilesFinder
                             name = list.filename,
                             path = list.path,
                             folderPath = list.folderPath
-
+                           
 
 
                         };
@@ -288,6 +294,9 @@ namespace FilesFinder
                 RetrieveList.myvideoList = videoFile.ToObservableCollection();
             }
         }
+
+
+>>>>>>> c00cfe6b5462400346acf10ee317592fdbffc3a5
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -300,6 +309,12 @@ namespace FilesFinder
                 //defini le dossier choisi
                 DirectoryInfo d = new DirectoryInfo(dlg.SelectedPath);
 
+<<<<<<< HEAD
+                //récupère les données de chaque fichier
+                // var files = Directory.GetFiles(dlg.SelectedPath).Where(s => supportedExtensions.Contains(Path.GetExtension(s).ToLower()));
+=======
+
+>>>>>>> c00cfe6b5462400346acf10ee317592fdbffc3a5
 
                 ObservableCollection<FileDetails> allFile = new ObservableCollection<FileDetails>();
                 Directory.SetCurrentDirectory(dlg.SelectedPath);
@@ -339,7 +354,12 @@ namespace FilesFinder
 
                     }
                 }
+<<<<<<< HEAD
+                //int num = allFile.Count;
+                //int num = 1;
+=======
                 int num = allFile.Count;
+>>>>>>> c00cfe6b5462400346acf10ee317592fdbffc3a5
 
 
                 RetrieveList.myList = allFile;
@@ -348,8 +368,15 @@ namespace FilesFinder
                 FileList.ItemsSource = allFile;
                 CountElement(num);
 
+<<<<<<< HEAD
+
+                //parcours le tableau de données
+                /*  foreach (var file in files)
+                  {
+=======
             }
         }
+>>>>>>> c00cfe6b5462400346acf10ee317592fdbffc3a5
 
 
 
@@ -403,51 +430,62 @@ namespace FilesFinder
             stream.Dispose();
 
         }
+     
+             private void Row_RightClick(object sender, RoutedEventArgs e)
+             {
+                
+                     FileDetails fl = FileList.SelectedItem as FileDetails;
+                     ImageDetails Il = FileList.SelectedItem as ImageDetails;
+                     WordDetails Wl = FileList.SelectedItem as WordDetails;
+                     PDFdetails Pl = FileList.SelectedItem as PDFdetails;
+                     VideoDetails Vl = FileList.SelectedItem as VideoDetails;
+                     AudioDetails Al = FileList.SelectedItem as AudioDetails;
+                     if (fl != null)
+                     {
+                         var test = fl.folderPath;
+                         Process.Start("explorer.exe", fl.folderPath.ToString());
+                     }
+                     if (Il != null)
+                     {
+                         Process.Start("explorer.exe", Il.folderPath.ToString());
+                     }
 
-        private void Row_RightClick(object sender, RoutedEventArgs e)
+                     if (Wl != null)
+                     {
+                         Process.Start("explorer.exe", Wl.folderPath.ToString());
+                     }
+
+                     if (Pl != null)
+                     {
+                         Process.Start("explorer.exe", Wl.folderPath.ToString());
+                     }
+                     if (Vl != null)
+                     {
+                         Process.Start("explorer.exe", Vl.folderPath.ToString());
+                     }
+                     if (Al != null)
+                     {
+                         Process.Start("explorer.exe", Al.folderPath.ToString());
+                     }
+
+                 
+             }
+
+
+
+            private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
+<<<<<<< HEAD
 
-            FileDetails fl = FileList.SelectedItem as FileDetails;
-            ImageDetails Il = FileList.SelectedItem as ImageDetails;
-            WordDetails Wl = FileList.SelectedItem as WordDetails;
-            PDFdetails Pl = FileList.SelectedItem as PDFdetails;
-            VideoDetails Vl = FileList.SelectedItem as VideoDetails;
-            AudioDetails Al = FileList.SelectedItem as AudioDetails;
-            if (fl != null)
+            if (e.ChangedButton == MouseButton.Left)
             {
-                var test = fl.folderPath;
-                Process.Start("explorer.exe", fl.folderPath.ToString());
-            }
-            if (Il != null)
-            {
-                Process.Start("explorer.exe", Il.folderPath.ToString());
-            }
-
-            if (Wl != null)
-            {
-                Process.Start("explorer.exe", Wl.folderPath.ToString());
-            }
-
-            if (Pl != null)
-            {
-                Process.Start("explorer.exe", Wl.folderPath.ToString());
-            }
-            if (Vl != null)
-            {
-                Process.Start("explorer.exe", Vl.folderPath.ToString());
-            }
-            if (Al != null)
-            {
-                Process.Start("explorer.exe", Al.folderPath.ToString());
+                FileDetails fl = FileList.SelectedItem as FileDetails;
+                System.Diagnostics.Process.Start(fl.path.ToString());
             }
 
 
         }
-
-
-
-        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
-        {
+=======
             if (e.ChangedButton == MouseButton.Left)
             {
                 FileDetails fl = FileList.SelectedItem as FileDetails;
@@ -464,6 +502,7 @@ namespace FilesFinder
                 {
                     System.Diagnostics.Process.Start(Il.Path.ToString());
                 }
+>>>>>>> c00cfe6b5462400346acf10ee317592fdbffc3a5
 
                 if (Wl != null)
                 {
@@ -489,7 +528,7 @@ namespace FilesFinder
 
 
 
-
+ 
 
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -542,7 +581,10 @@ namespace FilesFinder
 
         }
 
-
+<<<<<<< HEAD
+=======
+       
+>>>>>>> c00cfe6b5462400346acf10ee317592fdbffc3a5
 
 
         private void txtNameToSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -776,6 +818,13 @@ namespace FilesFinder
             {
                 System.Windows.MessageBox.Show("Veuillez choisir un dossier");
             }
+<<<<<<< HEAD
+
+
         }
+
+=======
+        }
+>>>>>>> c00cfe6b5462400346acf10ee317592fdbffc3a5
     }
 }

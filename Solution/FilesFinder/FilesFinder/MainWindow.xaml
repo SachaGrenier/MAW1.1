@@ -14,12 +14,12 @@
         <Grid Height="Auto" Width="Auto" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" Background="#7cadf1" Margin="0,0,0,0" Grid.ColumnSpan="3" Height="Auto" >
                 <Label Margin="10,0,0,0" Height="23" Name="Label1">
-                    Current File:
+                    Repértoire source:
                 </Label>
-                <Button Margin="5,25,0,20" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder" RenderTransformOrigin="1.237,0.921">
+                <Button Margin="5,25,0,20" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Parcourir" RenderTransformOrigin="1.237,0.921">
                     <!--  -->
                 </Button>
-                <TextBox HorizontalAlignment="Right" Margin="30,10,0,0"
+                <TextBox HorizontalAlignment="Right" Margin="25,10,0,0"
                 x:Name="txtNameToSearch" TextChanged="txtNameToSearch_TextChanged" Width="200" Height="30"  RenderTransformOrigin="-0.657,0.25" />
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="10,39,0,18">
                     <RadioButton GroupName="Filter" Content="Tout" IsChecked="True" Checked="RadioButton_Checked"/>
@@ -59,7 +59,7 @@
                     </Style>
                 </DataGrid.ItemContainerStyle>
             </DataGrid>
-            <TextBox Margin="0,0,100,7" x:Name="NumberArray" Width="Auto" Height="Auto" Text="{Binding NumberArray}" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            <TextBox Margin="0,0,10,7" x:Name="NumberArray" Width="Auto" Height="Auto" Text="{Binding NumberArray}" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
            
         </Grid>
     </Grid>
