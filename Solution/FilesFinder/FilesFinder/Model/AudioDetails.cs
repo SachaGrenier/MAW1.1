@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace FilesFinder.Model
 {
@@ -13,9 +9,7 @@ namespace FilesFinder.Model
 
 
         //le chemin complet
-        public string Path { get; set; }
-
-        public string Extension { get; set; }
+        public string path { get; set; }
 
         public string folderPath { get; set; }
 

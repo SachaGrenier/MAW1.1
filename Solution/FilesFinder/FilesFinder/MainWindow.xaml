@@ -50,7 +50,14 @@
                 </DataGrid.ContextMenu>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <Image Margin="15,0" Grid.Column="8" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="4" Source="{Binding Path, Converter={StaticResource UriToBitmapConverter}}" MouseLeftButtonDown="ImageButton_Click"/>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Ouvrir l'emplacement du fichier" Click="Row_RightClick" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <Image Margin="15,0" Grid.Column="8" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="4" Source="{Binding Path, Converter={StaticResource UriToBitmapConverter}}" />
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
                 <DataGrid.ItemContainerStyle>

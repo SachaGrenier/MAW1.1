@@ -10,7 +10,6 @@ namespace FilesFinder
 {
     public class UriToBitmapConverter : IValueConverter
     {
-
         //Redimensionne la taille de l'image dans la grille d'image
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace FilesFinder.Model
 {
-    public class WordDetails
+  public class OtherDetails
     {
-        
-        public string name { get; set; }
-        public string content { get; set; }
+        //le nom de l'image        
+        public string FileName { get; set; }
 
+
+        //le chemin complet
         public string path { get; set; }
+
 
         public string folderPath { get; set; }
     }
