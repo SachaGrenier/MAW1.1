@@ -11,7 +11,7 @@ namespace FilesFinder.Model
        
         public string FileName { get; set; }
      
-        public string Path { get; set; }
+        public string path { get; set; }
 
         public string folderPath { get; set; }
     }

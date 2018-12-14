@@ -16,6 +16,7 @@ using Spire.Doc.Documents;
 using System.Diagnostics;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using System.Windows.Media.Imaging;
 
 namespace FilesFinder
 {
@@ -60,14 +61,13 @@ namespace FilesFinder
         List<string> Extentions_Image = new List<string>(new string[] { ".bmp", ".gif", ".ico", ".jpeg", ".jpg", ".png" });
         List<string> Extentions_Audio = new List<string>(new string[] { ".mp3", ".aac", ".flac", ".ogg" });
         List<string> Extentions_Video = new List<string>(new string[] { ".flv", ".cam", ".mov", ".mpeg", ".mkv", ".webm", ".gif", ".avi", ".mpg" });
-        List<string> Extentions_All = new List<string>(new string[] { ".flv", ".cam", ".mov", ".mpeg", ".mkv", ".webm", ".gif", ".avi", ".mpg", ".mp3", ".aac", ".flac", ".ogg", ".bmp", ".gif", ".ico", ".jpeg", ".jpg", ".png", ".dot", ".dotx", ".doc", ".docx", ".pdf" });
+        List<string> Extentions_All = new List<string>(new string[] { ".flv", ".cam", ".mov", ".mpeg", ".mkv", ".webm", ".gif", ".avi", ".mpg", ".mp3", ".aac", ".flac", ".ogg", ".bmp", ".gif", ".ico", ".jpeg", ".jpg", ".png", ".dot", ".dotx", ".doc", ".docx", ".pdf"});
 
 
         public MainWindow()
         {
             InitializeComponent();
             BrowseButton_Click(null, null);
-
         }
 
         //Counts the quantity of elements display in the datagrid
@@ -81,14 +81,17 @@ namespace FilesFinder
         //Gets the metadata of file
         public string GetTags(string path)
         {
-            var fs = File.GetAccessControl(path);
-
-            var sid = fs.GetOwner(typeof(SecurityIdentifier));
-
-            var ntAccount = sid.Translate(typeof(NTAccount));
-
-            var name = ntAccount.Value.Split('\\');
-
+          
+                var fs = File.GetAccessControl(path);
+                var dateModif = File.GetLastWriteTime(path);
+                var dateCreate = File.GetCreationTime(path);
+                RetrieveList.DateList = dateCreate.ToString();
+                RetrieveList.DateModificate = dateModif.ToString();
+                var sid = fs.GetOwner(typeof(SecurityIdentifier));
+                var ntAccount = sid.Translate(typeof(NTAccount));
+                var name = ntAccount.Value.Split('\\');
+                      
+           
             return name[1];
 
         }
@@ -96,21 +99,29 @@ namespace FilesFinder
         //Allows to read inside a word document to find specific text inside the document
         public string GetWord(string path)
         {
-
             StringBuilder text = new StringBuilder();
-            Document document = new Document();
-            document.LoadFromFile(path);
-
-
-            foreach (Section section in document.Sections)
+            try
             {
-                foreach (Paragraph paragraph in section.Paragraphs)
+                Document document = new Document();
+                document.LoadFromFile(path);
+
+
+                foreach (Section section in document.Sections)
                 {
-                    text.AppendLine(paragraph.Text);
+                    foreach (Paragraph paragraph in section.Paragraphs)
+                    {
+                        text.AppendLine(paragraph.Text);
+                    }
                 }
             }
-            return text.ToString();
 
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.ToString());
+            }
+               
+          
+                return text.ToString();                           
 
         }
 
@@ -119,20 +130,28 @@ namespace FilesFinder
         {
             StringBuilder text = new StringBuilder();
 
-            if (File.Exists(path))
+            try
             {
-                PdfReader pdfReader = new PdfReader(path);
-
-                for (int page = 1; page <= pdfReader.NumberOfPages; page++)
+                if (File.Exists(path))
                 {
-                    ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
-                    string currentText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
+                    PdfReader pdfReader = new PdfReader(path);
 
-                    currentText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(currentText)));
-                    text.Append(currentText);
+                    for (int page = 1; page <= pdfReader.NumberOfPages; page++)
+                    {
+                        ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
+                        string currentText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
+
+                        currentText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(currentText)));
+                        text.Append(currentText);
+                    }
+                    pdfReader.Close();
                 }
-                pdfReader.Close();
             }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Impossible de lire le fichier" + ex.ToString());
+            }
+
             return text.ToString();
         }
 
@@ -298,7 +317,7 @@ namespace FilesFinder
                         VideoDetails id = new VideoDetails
                         {
                             FileName = list.filename,
-                            Path = list.path,
+                            path = list.path,
                             folderPath = list.folderPath
                         };
 
@@ -382,6 +401,8 @@ namespace FilesFinder
                             filename = fi.Name,
                             path = fi.ToString(),
                             author = GetTags(fi.ToString()),
+                            dateCreation = RetrieveList.DateList,
+                            datemodif = RetrieveList.DateModificate,
                             extension = fi.Extension,
                             folderPath = fi.Directory.ToString()
 
@@ -430,7 +451,7 @@ namespace FilesFinder
 
             if (Pl != null)
             {
-                Process.Start("explorer.exe", Wl.folderPath.ToString());
+                Process.Start("explorer.exe", Pl.folderPath.ToString());
             }
             if (Vl != null)
             {
@@ -482,7 +503,7 @@ namespace FilesFinder
                     }
                     if (Vl != null)
                     {
-                        System.Diagnostics.Process.Start(Vl.Path.ToString());
+                        System.Diagnostics.Process.Start(Vl.path.ToString());
                     }
                     if (Al != null)
                     {
@@ -494,9 +515,9 @@ namespace FilesFinder
                     }
 
                 }
-                catch
+                catch(Exception ex)
                 {
-
+                    System.Windows.MessageBox.Show("Imposible d'ouvir le fichier"+ ex.Message);
                 }
 
 
@@ -624,10 +645,8 @@ namespace FilesFinder
                 listFile = RetrieveList.myList.ToList();
                 {
                     makeList();
-
                     
                     string txtOrig = txtNameToSearch.Text;
-
                  
                     string upper = txtOrig.ToUpper();
 
@@ -846,7 +865,37 @@ namespace FilesFinder
                                                  select file;
 
                         listFileSearch.AddRange(fileauthorFiltered);
-                      
+
+
+                        var fileDateModifFiltered = from file in listFile
+                                                 let dateModiffile = file.datemodif
+
+                                                 where file.datemodif != null
+
+                                                 where
+                                                           dateModiffile.StartsWith(lower)
+                                                        || dateModiffile.StartsWith(upper)
+                                                        || dateModiffile.Contains(txtOrig)
+
+                                                 select file;
+
+                        listFileSearch.AddRange(fileDateModifFiltered);
+
+                        var fileDateCreateFiltered = from file in listFile
+                                                    let dateCreatefile = file.dateCreation
+
+                                                    where file.dateCreation != null
+
+                                                    where
+                                                              dateCreatefile.StartsWith(lower)
+                                                           || dateCreatefile.StartsWith(upper)
+                                                           || dateCreatefile.Contains(txtOrig)
+
+                                                    select file;
+
+                        listFileSearch.AddRange(fileDateCreateFiltered);
+
+
                         IEnumerable<FileDetails> sansDoublon = listFileSearch.Distinct();
                         int num = sansDoublon.Count();
                         FileList.ItemsSource = sansDoublon.OrderBy(FileDetails => FileDetails.filename).ToObservableCollection();
