@@ -28,6 +28,7 @@ Ce projet nous a été demandé par un client. L’idée est de créer une appli
 * Application de gestion de projet (Trello)
 * Un dépôt GIT
 * C# .NET 4.6.1
+* Balsamiq Mockups 3
 ### Prérequis
 Un niveau en C# CFC est nécessaire
 Ainsi que les connaissances suivantes :
@@ -36,10 +37,10 @@ Ainsi que les connaissances suivantes :
 *	Kanban
 *	XAML
 ### Cahier de charges
-[Accéder au cahier de charges](https://github.com/SachaGrenier/MAW1.1/blob/master/CDCProjet/CDC/Cahier_des_charges.docx)
+[Accéder au cahier de charges](https://github.com/SachaGrenier/MAW1.1/blob/master/Docs/CDC/Cahier_des_charges.docx)
 
 ## Planification
-Accéder à la planification GANTT en [cliquant ici](https://github.com/SachaGrenier/MAW1.1/blob/master/CDCProjet/Planification/MAW-grenier-schwab-Plannif-JDT.pdf)
+Accéder à la planification GANTT en [cliquant ici](https://github.com/SachaGrenier/MAW1.1/blob/master/Docs/Planification/MAW-grenier-schwab-Plannif-JDT.pdf)
 
 ![planif_part1](..\Documentation\planif_part1.png)
 ![planif_part1](..\Documentation\planif_part2.png)
@@ -51,10 +52,10 @@ Accéder à la planification GANTT en [cliquant ici](https://github.com/SachaGre
 La création de cette application va nous permettre de :
 *	Nous améliorer en C#, découvrir de nouvelles fonctions, libraires, etc.
 *	Progresser en écriture de rapport de projet. 
-*	Apprendre à utiliser le potentiel de chaque développeur en séparant le travail par tâches
-*	Développer une fonction de recherche à l’intérieur des documents
-*	Trouver un moyen de rendre la recherche la plus rapide possible
-*	Le travail en groupe peut apporter des conflits, savoir les gérer
+*	Apprendre à utiliser le potentiel de chaque développeur en séparant le travail par tâches.
+*	Développer une fonction de recherche à l’intérieur des documents.
+*	Trouver un moyen de rendre la recherche la plus rapide possible.
+*	Le travail en groupe peut apporter des conflits, savoir les gérer.
 
 ### Document d’analyse et conception
 Le but est de créer une application qui permet d’effectuer des recherches avancées de documents sur un système Windows quelconque. Nous sommes mandatés par un client qui rencontre des difficultés à faire de recherches du a un grand nombre de documents.
@@ -67,7 +68,7 @@ En ce qui concerne le visuel de l’application, nous avons créé des maquettes
 1. Démarrage de l’application.
     ![maq_0](..\Documentation\Maquette\maq_0.png)
 
-2. Sélection du dossier d’où les recherches seront effectuées. Une fois le répertoire sélectionné, l’application se lance
+2. Sélection du dossier d’où les recherches seront effectuées. Une fois le répertoire sélectionné, l’application se lance.
     ![maq_1](..\Documentation\Maquette\maq_1.png)
     <span style='color:orange'>Ce bouton permet de choisir un autre répertoire source</span>
 
@@ -126,7 +127,7 @@ Etant donné que lorsqu'il est arrivé nous avions déjà bien avancé dans notr
 
 ### Mise en place de l'environnement
 
-D’abord, nous avons installé Visual Studio 2017 sur nos postes de travail. Ensuite, un dépôt git a été créé. Pour communiquer avec notre dépôt git nous avons installé l’application « git extensions » un logiciel de gestion de versions simple et efficace.
+D’abord, nous avons installé Visual Studio 2017 sur nos postes de travail. Ensuite, un dépôt git a été créé. Pour communiquer avec notre dépôt git nous avons installé l’application « git extensions » un logiciel de gestion de versions simple et efficace. Balsamiq Mockup 3 nous a aidés pour créer les maquettes.
 
 ### Outils
 #### Git
@@ -142,11 +143,13 @@ Au total, plus de 100 commits ont été effectués, avec la participation des 3 
 
 ![git_commits](..\Documentation\Screenshots\git_commits.PNG)
 
+> [Voir en temps réel](https://github.com/SachaGrenier/MAW1.1/graphs/contributors)
+
 #### Trello
 
 ![trello_preview](..\Documentation\trello_preview.png)
 
-L'application Trello ne nous a pas vraiment été utile durant le projet. A part les quelques fois où nous l'avons utilisée pour savoir ou nous en étions, elle à été pas mal délaissée. TODO -> que dire de plus ?
+L'application Trello ne nous a pas vraiment été utile durant le projet. A part les quelques fois où nous l'avons utilisée pour savoir ou nous en étions, elle à été pas mal délaissée. [Voir Trello](https://trello.com/b/T5stisYp/maw11)
 
 #### FreeSpire
 
@@ -173,6 +176,20 @@ Cette libraire permet de faire des requêtes avec une syntaxe similaire au SQL, 
 
 Il faut savoir que la recherche est faite de manière récursive, donc si le fichier se situe dans un sous-dossier le programme se débrouillera pour le trouver.
 
+#### Code
+
+FileDetails ainsi que les autres classes se finissant pas "Details" sont les classes définissant le modèle des différents fichiers.
+
+![Filemodel](../Documentation/Screenshots/Filemodel.PNG)
+
+Voici la méthode makeList() que nous utilisons pour remplir les modèles avec les données des fichiers du dossier choisit.
+
+![ModelCreator](../Documentation/Screenshots/modelCreator_ABC.PNG)
+
+- <span style="color:orange">A</span> Récupère la liste complète de fichiers, vérifie si le filtre Word est sélectionné et vide la liste persistante Word si elle n'est pas vide
+- <span style="color:orange">B</span> Vide la liste wordFile, parcours la liste de fichiers et si l'extension du fichier correspond à la liste d'extensions (tapée en dur), crée l'objet id avec les paramètre voulus puis remplit la liste wordFile avec  le résultat obtenu.
+- <span style="color:orange">C</span> Vérifie qu'il n'y aie pas de doublons dans la liste de fichiers, compte combien d'éléments sont dans cette dernière(cette information est utilisée dans l'UI pour afficher le nombre de résultats) et remplit la liste persistante Word avec le résultat retourné.
+
 Voici la classe que nous utilisons pour utiliser LinQ :
 
 ![AllowLinq](..\Documentation\Screenshots\AllowLinq.PNG)
@@ -183,9 +200,9 @@ Voici un exemple d'une recherche utilisant LinQ.
 
 * <span style="color:orange">A</span> Vérifie que le filtre Word soit activé
 * <span style="color:orange">B</span> Requête LinQ qui permet de rechercher tous les fichiers Word ainsi que leur contenu si l'élément à une correspondance
-* <span style="color:orange">C</span> Le fichier, s'il correspond, est ajouté au tableau de fichiers word. On vérifie ensuite qu'il n'y aie pas de doublons, on compte la quantitié d'éléments pour l'afficher dans l'application et on l'ajoute à la liste de résultats sous format Observable Collection.
+* <span style="color:orange">C</span> Le fichier, s'il correspond, est ajouté au tableau de fichiers word. On vérifie ensuite qu'il n'y aie pas de doublons, on compte la quantité d'éléments pour l'afficher dans l'application puis on remplit le DataGrid avec les résultats de la recherche
 
-Nous utilisons donc des fonctions offertes par LinQ tel que .AddRange() pour ajouter un élément à un tableau ou alors .Distinct() pour éviter les doublons dans nos résultats.
+Nous utilisons donc des fonctions offertes par LinQ tel que "where" ou "select" . Nous pouvons alors constater la proximité de la syntaxe avec le langage SQL.
 
 ### Filtrer
 
@@ -199,11 +216,11 @@ Les filtres ont été faits à l'aide des extensions de fichiers que nous avons 
 
 Les filtres "Word" & "PDF" sont un peu différents des autres; lorsqu'ils sont sélectionnés, la recherche s'effectuera sur l'ensemble des documents Word et PDF ainsi que leur contenu
 
-Le filtre "Autres" est utilisé pour toutes les extensions inconnues au bataillon.
-
-TODO AMELIORER en bas
+Le filtre "Autres" est utilisé pour toutes les extensions n'ayant pas de correspondance dans les autres filtres.
 
 Classes implémentées dans notre projet :
+
+> Les classes de modèles de données correspondant à chaque filtre
 
 * AudioDetails
 * FileDetails
@@ -212,20 +229,18 @@ Classes implémentées dans notre projet :
 * PDFDetails
 * VideoDetails
 * WordDetails
+* RetrieveList (Stocke la liste de fichiers du répertoire source selon les filtres)
 
-Modèles de données correspondant à chaque filtre
+> Les classes ajoutant des fonctionnalités 
 
 * LinqExtensions (Permet d'utiliser LinQ)
-
-* RetrieveList (Stocke la liste de fichiers dans le répertoire source selon les filtres)
-
 * UriToBitmapConverter (Permet de redimensionner les images aperçu )
 
 ### Afficher
 
 La liste de résultats se met à jour après n'importe quel nouvelle lettre tapée, ou lorsque le filtre est changé. Pour l'implémentation des données dans le tableau nous avons utilisé un DataGrid. La quantité de résultats est affichée en bas à droite.
 
-![datagrid_example](..\Documentation\Screenshots\datagrid_example.png)
+> ![datagrid_example](..\Documentation\Screenshots\datagrid_example.png)
 
 Ceci est un exemple de DataGrid et les possibilités qu'il propose. Très pratique à utiliser car le type de source de données demandé est exactement celui que nous utilisons pour retourner les résultats de la recherche.
 
@@ -233,35 +248,19 @@ Voici à quoi ressemble notre liste de résultats
 
 ![MainApp](..\Documentation\Screenshots\MainApp.PNG)
 
-FileDetails est la classe que nous utilisons pour chaque fichier qui n'est pas encore filtré.
 
-![Filemodel](..\Documentation\Screenshots\Filemodel.PNG)
-
-TODO -> améliorer
-
-Voici la méthode makeList() que nous uitlisons pour filtrer ce que nous affichons dans le DataGrid.
-C'est de cette manière que nous filtrons les fichiers, les autres fitres ont aussi leur propre méthode.
-
-![ModelCreator](..\Documentation\Screenshots\modelCreator_ABC.PNG)
-
-* <span style="color:orange">A</span> Vérifie si le filtre Image est sélectionné et vide la liste actuelle si elle n'est pas vide
-* <span style="color:orange">B</span> Vide la liste wordFile, parcours la liste des fichier et cherche ceux dont l'extension correspond à la liste d'extensions(tappée en dur), puis construit l'objet id pour l'ajouter à la liste de fichiers. La liste "list" est le résultat de la recherche retournée par la méthode utilisant LinQ.
-* <span style="color:orange">C</span> Vérifie qu'il n'y aie pas de doublons dans la liste de fichiers, compte combien d'éléments sont dans cette dernière(cette information est utilisée dans l'ui pour afficher le nombre de résultats) et ajoute à la liste de résultats sous format "Observable Collection".
-* TODO check ce que jai écrit c'est juste
 
 ### Exécuter
 
-Deux possibilités d'ouvrir un fichier :
+Nous offrons la possibilité soit d'ouvrir le dossier source du fichier sélectionné, soit d'ouvrir le fichier avec le programme par défaut  
 
-Avec le clic droit :![right_click](..\Documentation\Screenshots\right_click.png)
+Le clic droit permet d'ourvir le dossier source :![right_click](..\Documentation\Screenshots\right_click.png)
 
-Avec deux clics gauche :Ouverture du fichier avec le programme par défaut.
-
-* 
+Le double clic gauche permet ouverture du fichier avec le programme par défaut.
 
 ### Bugs/Problèmes connus
 
-* XAML très moyen, nous n'avons pas réussi à faire quelque chose de mieux.
+* Interface graphique (XAML) très moyenne, nous n'avons pas réussi à faire quelque chose de mieux.
 * Utilisation du DataGrid, les entêtes que nous n'avons pas réussi à modifier nous on posé des soucis.
 * Rapidité de recherche, efficace en général mais peut avoir des ralentissements.
 * Le dépôt git nous à posé des petits soucis avec les conflits de merge. 
@@ -279,12 +278,9 @@ Nous avons des idées pour améliorer notre application, en voici en liste non-e
 
 ### Installation
 
-Téléchargez le dossier FilesFinder_App sur https://github.com/SachaGrenier/MAW1.1/FilesFinder_App
+Téléchargez le dossier FilesFinder sur github (ou clonez tout le dépôt si vous le souhaitez) [Download](https://github.com/SachaGrenier/MAW1.1/tree/master/FilesFinder)
 
-Cliquez sur le fichier "Setup.exe", une fenêtre apparaît cliquez sur "Installer"
-Ensuite, pour ouvrir l'application il vous suffit de lancer FilesFinder.application (il se trouve au même emplacement que le setup.exe).
-
-Comment faire pour désinstaller ? Rendez-vous dans programmes & fonctionnalités, puis désinstallez FilesFinder.
+Lancez ensuite FilesFinder.exe dans le dossier Application. Il est possible que le raccourci ne fonctionne pas, vous pouvez toujours en créer un facilement.
 
 ## Tests
 
@@ -315,12 +311,16 @@ Comment faire pour désinstaller ? Rendez-vous dans programmes & fonctionnalité
 
 ### Consommation
 
-![ConsoRam](P:\MAW1.1\Documentation\Screenshots\ConsoRam.PNG)
+
+
+![ConsoRam](..\Documentation\Screenshots\ConsoRam.PNG)
+
+> Nous pouvons remarquer que la consommation de RAM ainsi que la charge CPU sont linéaires et modestes
 
 ## Conclusion
 
 ### Bilan Maquette/Produit final
-![maq_3](P:\MAW1.1\Documentation\Maquette\maq_3.PNG)
+![maq_3](..\Documentation\Maquette\maq_3.PNG)
 ![MainApp](..\Documentation\Screenshots\SearchWindow.PNG)
 
 De manière générale, nous avons plutôt bien respecté notre maquette. On peut remarquer une différence nette principale sur le liste de résultats ainsi que la prévisualisation des fichiers. Cette différence est due au fait que nous ne maîtrisons pas bien le XAML, nous avons donc fait au plus simple. Nous trouvons tout de même que le résultat final se défend bien, l'espace est bien utilisé.
@@ -339,6 +339,6 @@ De plus, nous avons rencontré des problèmes avec git, dus à de mauvaises mani
 
 ## Sources
 
-Journal de travail :TODO
+Journal de travail : [cliquez ici](https://github.com/SachaGrenier/MAW1.1/blob/master/Docs/Planification/MAW-grenier-schwab-Plannif-JDT.xlsm)
 
-Batterie de tests : TODO
+Batterie de tests : [cliquez ici](https://github.com/SachaGrenier/MAW1.1/blob/master/Docs/Tests/Batterie_de_tests.xlsx)
