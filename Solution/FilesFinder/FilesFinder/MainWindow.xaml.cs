@@ -80,8 +80,7 @@ namespace FilesFinder
 
         //Gets the metadata of file
         public string GetTags(string path)
-        {
-          
+        {         
                 var fs = File.GetAccessControl(path);
                 var dateModif = File.GetLastWriteTime(path);
                 var dateCreate = File.GetCreationTime(path);
@@ -90,10 +89,8 @@ namespace FilesFinder
                 var sid = fs.GetOwner(typeof(SecurityIdentifier));
                 var ntAccount = sid.Translate(typeof(NTAccount));
                 var name = ntAccount.Value.Split('\\');
-                      
-           
+                                
             return name[1];
-
         }
 
         //Allows to read inside a word document to find specific text inside the document
@@ -117,10 +114,9 @@ namespace FilesFinder
 
             catch(Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.ToString());
+                System.Windows.MessageBox.Show("Impossible de lire le fichier" + ex.ToString());
             }
-               
-          
+                       
                 return text.ToString();                           
 
         }
@@ -568,6 +564,7 @@ namespace FilesFinder
                     
 
                 }
+
                 else if (Filter == "Word")
                 {
                     makeList();
@@ -583,6 +580,7 @@ namespace FilesFinder
                     
 
                 }
+
                 else if (Filter == "PDF")
                 {
                     makeList();
