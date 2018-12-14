@@ -60,7 +60,7 @@
                 </DataGrid.ItemContainerStyle>
             </DataGrid>
             <TextBox Margin="0,0,10,7" x:Name="NumberArray" Width="Auto" Height="Auto" Text="{Binding NumberArray}" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-           
+
         </Grid>
     </Grid>
 </Window>
