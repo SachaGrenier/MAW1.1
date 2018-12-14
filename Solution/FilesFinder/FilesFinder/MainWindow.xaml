@@ -50,13 +50,6 @@
                 </DataGrid.ContextMenu>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Ouvrir l'emplacement du fichier" Click="Row_RightClick" />
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-                <DataGrid.RowDetailsTemplate>
-                    <DataTemplate>
                         <Image Margin="15,0" Grid.Column="8" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="4" Source="{Binding Path, Converter={StaticResource UriToBitmapConverter}}" />
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
@@ -67,7 +60,7 @@
                 </DataGrid.ItemContainerStyle>
             </DataGrid>
             <TextBox Margin="0,0,10,7" x:Name="NumberArray" Width="Auto" Height="Auto" Text="{Binding NumberArray}" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-           
+
         </Grid>
     </Grid>
 </Window>

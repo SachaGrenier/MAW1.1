@@ -14,7 +14,6 @@ using Spire.Doc;
 using Spire.Xls;
 using Spire.Doc.Documents;
 using System.Diagnostics;
-using PdfSharp.Pdf;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 
@@ -400,6 +399,7 @@ namespace FilesFinder
 
             }
         }
+
 
         //Open the directory of the selected file
         private void Row_RightClick(object sender, RoutedEventArgs e)
