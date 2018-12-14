@@ -152,11 +152,11 @@ L'application Trello ne nous a pas vraiment été utile durant le projet. A part
 
 Pour rechercher à l’intérieur de des documents Word, nous avons utilisé une librairie nommée [Freespire](https://www.e-iceblue.com/Introduce/free-doc-component.html#.XAZ6Q2hKiUk).
 
-Le logiciel comprenant plusieurs versions payantes nous propose une version gratuite, efficace pour Word et qui comporte aussi un module pour PDF, malheureusement pas assez complet et accessible. Nous avons donc choisi d’utiliser une autre librairie nommée :   TODO  ON AFEKOI
+Le logiciel comprenant plusieurs versions payantes nous propose une version gratuite, efficace pour Word et qui comporte aussi un module pour PDF, malheureusement pas assez complet et accessible. Nous avons donc choisi d’utiliser une autre librairie nommée :
 
 #### iTextSharp
 
-NuGet installé par nos soins qui nous a ajouté des fonctionnalités permettant de lire des fichiers .PDF
+NuGet installé par nos soins qui nous a ajouté des fonctionnalités permettant de lire des fichiers .PDF. Ces méthodes nous on permis de pouvoir rechercher des mots clés à l'intérieur des documents PDF.
 
 ## Fonctionnalités
 ### Rechercher
@@ -173,16 +173,16 @@ Cette libraire permet de faire des requêtes avec une syntaxe similaire au SQL, 
 
 Il faut savoir que la recherche est faite de manière récursive, donc si le fichier se situe dans un sous-dossier le programme se débrouillera pour le trouver.
 
-Voici la classe que nous utilisons pour appeller  TODO refaire le screen avec le commentaire en anglais
+Voici la classe que nous utilisons pour utiliser LinQ :
 
 ![AllowLinq](..\Documentation\Screenshots\AllowLinq.PNG)
 
-Voici comment nous faisons nos requêtes avec LinQ. 
+Voici un exemple d'une recherche utilisant LinQ. 
 
 ![Linq_ABC](..\Documentation\Screenshots\Linq_ABC.PNG)Cette requête est utilisée lorsque le filtre "Word" est activé.
 
 * <span style="color:orange">A</span> Vérifie que le filtre Word soit activé
-* <span style="color:orange">B</span> Requête linQ qui permet de rechercher tous les fichiers Word ainsi que leur contenu si l'élément à une correspondance
+* <span style="color:orange">B</span> Requête LinQ qui permet de rechercher tous les fichiers Word ainsi que leur contenu si l'élément à une correspondance
 * <span style="color:orange">C</span> Le fichier, s'il correspond, est ajouté au tableau de fichiers word. On vérifie ensuite qu'il n'y aie pas de doublons, on compte la quantitié d'éléments pour l'afficher dans l'application et on l'ajoute à la liste de résultats sous format Observable Collection.
 
 Nous utilisons donc des fonctions offertes par LinQ tel que .AddRange() pour ajouter un élément à un tableau ou alors .Distinct() pour éviter les doublons dans nos résultats.
@@ -201,6 +201,26 @@ Les filtres "Word" & "PDF" sont un peu différents des autres; lorsqu'ils sont s
 
 Le filtre "Autres" est utilisé pour toutes les extensions inconnues au bataillon.
 
+TODO AMELIORER en bas
+
+Classes implémentées dans notre projet :
+
+* AudioDetails
+* FileDetails
+* ImageDetails
+* OtherDetails
+* PDFDetails
+* VideoDetails
+* WordDetails
+
+Modèles de données correspondant à chaque filtre
+
+* LinqExtensions (Permet d'utiliser LinQ)
+
+* RetrieveList (Stocke la liste de fichiers dans le répertoire source selon les filtres)
+
+* UriToBitmapConverter (Permet de redimensionner les images aperçu )
+
 ### Afficher
 
 La liste de résultats se met à jour après n'importe quel nouvelle lettre tapée, ou lorsque le filtre est changé. Pour l'implémentation des données dans le tableau nous avons utilisé un DataGrid. La quantité de résultats est affichée en bas à droite.
@@ -211,7 +231,7 @@ Ceci est un exemple de DataGrid et les possibilités qu'il propose. Très pratiq
 
 Voici à quoi ressemble notre liste de résultats
 
-TODO -> insérer screen de l'app
+![MainApp](..\Documentation\Screenshots\MainApp.PNG)
 
 FileDetails est la classe que nous utilisons pour chaque fichier qui n'est pas encore filtré.
 
@@ -222,10 +242,10 @@ TODO -> améliorer
 Voici la méthode makeList() que nous uitlisons pour filtrer ce que nous affichons dans le DataGrid.
 C'est de cette manière que nous filtrons les fichiers, les autres fitres ont aussi leur propre méthode.
 
-![ModelCreator](..\Documentation\Screenshots\model_ABC.PNG)
+![ModelCreator](..\Documentation\Screenshots\modelCreator_ABC.PNG)
 
 * <span style="color:orange">A</span> Vérifie si le filtre Image est sélectionné et vide la liste actuelle si elle n'est pas vide
-* <span style="color:orange">B</span> Vide la liste imageFile, parcours la liste des fichier et cherche ceux dont l'extension correspond à la liste d'extensions(tappée en dur), puis construit l'objet id pour l'ajouter à la liste de fichiers. La liste "list" est le résultat de la recherche retournée par la méthode utilisant LinQ.
+* <span style="color:orange">B</span> Vide la liste wordFile, parcours la liste des fichier et cherche ceux dont l'extension correspond à la liste d'extensions(tappée en dur), puis construit l'objet id pour l'ajouter à la liste de fichiers. La liste "list" est le résultat de la recherche retournée par la méthode utilisant LinQ.
 * <span style="color:orange">C</span> Vérifie qu'il n'y aie pas de doublons dans la liste de fichiers, compte combien d'éléments sont dans cette dernière(cette information est utilisée dans l'ui pour afficher le nombre de résultats) et ajoute à la liste de résultats sous format "Observable Collection".
 * TODO check ce que jai écrit c'est juste
 
@@ -237,17 +257,14 @@ Avec le clic droit :![right_click](..\Documentation\Screenshots\right_click.png)
 
 Avec deux clics gauche :Ouverture du fichier avec le programme par défaut.
 
+* 
+
 ### Bugs/Problèmes connus
 
-TODO
-
-Utilisation du datagrid,
-
-xaml merdique
-
-rapidité de recherche
-
-git lol
+* XAML très moyen, nous n'avons pas réussi à faire quelque chose de mieux.
+* Utilisation du DataGrid, les entêtes que nous n'avons pas réussi à modifier nous on posé des soucis.
+* Rapidité de recherche, efficace en général mais peut avoir des ralentissements.
+* Le dépôt git nous à posé des petits soucis avec les conflits de merge. 
 
 ### Améliorations
 
@@ -256,64 +273,69 @@ Nous avons des idées pour améliorer notre application, en voici en liste non-e
 * Colorer élément en bleu lorsque un clic droit est effectué
 * Améliorer la fluidité de la recherche
 * Meilleure utilisation des header du tableau
-* Faire un focus sur l'application une fois le dossier source séléctionné
+* Faire un focus sur l'application une fois le dossier source sélectionné
 * Une méthode générique pour les filtres pour que nous puissions en rajouter facilement
 * Utilisation d'une banque de données pour les extensions 
-* TODO -> Ajouter éléments
 
 ### Installation
 
-Il s'agit d'un programme en C# développé avec Visual Studio, donc pour l'installation il faut reprendre tout le dossier Release ou se site la version de production de notre application. 
+Téléchargez le dossier FilesFinder_App sur https://github.com/SachaGrenier/MAW1.1/FilesFinder_App
 
-Le programme à été compilé à sa dernière version alors vous pourrez jouir de ses toutes dernières fonctionnalités
+Cliquez sur le fichier "Setup.exe", une fenêtre apparaît cliquez sur "Installer"
+Ensuite, pour ouvrir l'application il vous suffit de lancer FilesFinder.application (il se trouve au même emplacement que le setup.exe).
 
-TODO -> C'est tout ?
+Comment faire pour désinstaller ? Rendez-vous dans programmes & fonctionnalités, puis désinstallez FilesFinder.
 
 ## Tests
 
-| Fonctionnalité   à tester                                    | Résultat attendu                                             | Date    | Résultat obtenu                                           | Etat                                   |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------- | --------------------------------------------------------- | -------------------------------------- |
-| Clic sur le bouton "Parcourir"                               | Une fenêtre s'ouvre et l'utilisateur peut sélectionner un dossier à exploiter | 11 déc. | La fenêtre s'ouvre correctement, l'arborescence s'affiche | <span style="color:green;">OK</span>   |
-| Lancer l'application                                         | Une recherche de dossier s'ouvre                             | 13 dec. | La fenêtre s'ouvre                                        | <span style="color:green;">OK</span>   |
-| Sélection du dossier                                         | Affichage du dossier                                         | 13 déc. | Le contenu du dossier s'affiche                           | <span style="color:green;">OK</span>   |
-| Recherche du fichier   "index"                               | Les fichiers dont le nom contient "index" s'affichent        | 13 déc. | Les fichiers s'affichent                                  | <span style="color:green;">OK</span>   |
-| Ouverture du fichier                                         | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre ou propose un programme                | <span style="color:green;">OK</span>   |
-| Clique droit sur l'élément de la liste+ Ouvrir l'emplacement du fichier | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                        | <span style="color:green;">OK</span>   |
-| Filtre des fichier                                           | Les fichiers du type s'affichent                             | 13 déc. | Les fichiers s'affichent en fonction de leurs type        | <span style="color:green;">OK</span>   |
-| Ouvrir le fichier                                            | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre avec le programme par défaut           | <span style="color:green;">OK</span>   |
-| Clique droit + afficher le   dossier                         | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                        | <span style="color:green;">OK</span>   |
-| Sélectionner un nouveau   dossier                            | Affichage du dossier                                         | 13 déc. | Le dossier s'affiche                                      | <span style="color:green;">OK</span>   |
-| Recherche du fichier   "index"                               | Les fichiers "index" s'affichent                             | 13 déc. | Les fichiers s'affichent                                  | <span style="color:green;">OK</span>   |
-| Ouverture du fichier                                         | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre ou propose un programme                | <span style="color:green;">OK</span>   |
-| Clique droit + afficher le   dossier                         | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                        | <span style="color:green;">OK</span>   |
-| Filtre des fichier                                           | Les fichiers du type s'affichent                             | 13 déc. | Les fichiers s'affichent après une nouvelle recherche     | <span style="color:green;">OK</span>   |
-| Ouvrir le fichier                                            | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre                                        | <span style="color:green;">OK</span>   |
-| Clique droit + afficher le   dossier                         | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                        | <span style="color:green;">OK</span>   |
-| Lancer l'application sans   choisir de dossier source        | L'application se lance sans dossier                          | 13 déc. | L'application se lance                                    | <span style="color:green;">OK</span>   |
-| Rechercher un document avec sa date de modification          | TODO                                                         |         |                                                           | <span style="color:darkred;">KO</span> |
-| Rechercher un document avec sa date de création              | TODO                                                         |         |                                                           | <span style="color:darkred;">KO</span> |
+### Batterie de tests
+
+| Fonctionnalité   à tester                                    | Résultat attendu                                             | Date    | Résultat obtenu                                              | Etat                                 |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------- | ------------------------------------------------------------ | ------------------------------------ |
+| Clic sur le bouton "Parcourir"                               | Une fenêtre s'ouvre et l'utilisateur peut sélectionner un dossier à exploiter | 11 déc. | La fenêtre s'ouvre correctement, l'arborescence s'affiche    | <span style="color:green;">OK</span> |
+| Lancer l'application                                         | Une recherche de dossier s'ouvre                             | 13 dec. | La fenêtre s'ouvre                                           | <span style="color:green;">OK</span> |
+| Sélection du dossier                                         | Affichage du dossier                                         | 13 déc. | Le contenu du dossier s'affiche                              | <span style="color:green;">OK</span> |
+| Recherche du fichier   "index"                               | Les fichiers dont le nom contient "index" s'affichent        | 13 déc. | Les fichiers s'affichent                                     | <span style="color:green;">OK</span> |
+| Ouverture du fichier                                         | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre ou propose un programme                   | <span style="color:green;">OK</span> |
+| Clique droit sur l'élément de la liste+ Ouvrir l'emplacement du fichier | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                           | <span style="color:green;">OK</span> |
+| Filtre des fichier                                           | Les fichiers du type s'affichent                             | 13 déc. | Les fichiers s'affichent en fonction de leurs type           | <span style="color:green;">OK</span> |
+| Ouvrir le fichier                                            | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre avec le programme par défaut              | <span style="color:green;">OK</span> |
+| Clique droit + afficher le   dossier                         | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                           | <span style="color:green;">OK</span> |
+| Sélectionner un nouveau   dossier                            | Affichage du dossier                                         | 13 déc. | Le dossier s'affiche                                         | <span style="color:green;">OK</span> |
+| Recherche du fichier   "index"                               | Les fichiers "index" s'affichent                             | 13 déc. | Les fichiers s'affichent                                     | <span style="color:green;">OK</span> |
+| Ouverture du fichier                                         | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre ou propose un programme                   | <span style="color:green;">OK</span> |
+| Clique droit + afficher le   dossier                         | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                           | <span style="color:green;">OK</span> |
+| Filtre des fichier                                           | Les fichiers du type s'affichent                             | 13 déc. | Les fichiers s'affichent après une nouvelle recherche        | <span style="color:green;">OK</span> |
+| Ouvrir le fichier                                            | Le fichier s'ouvre avec le programme par défaut              | 13 déc. | Le fichier s'ouvre                                           | <span style="color:green;">OK</span> |
+| Clique droit + afficher le   dossier                         | Le dossier s'ouvre                                           | 13 déc. | Le dossier s'ouvre                                           | <span style="color:green;">OK</span> |
+| Lancer l'application sans   choisir de dossier source        | L'application se lance sans dossier                          | 13 déc. | L'application se lance                                       | <span style="color:green;">OK</span> |
+| Rechercher un document avec sa date de modification          | Les fichiers correspondants à la date recherchée restent dans la liste | 14 déc. | Les fichiers  correspondants restent dans la liste, sans filtre | <span style="color:green;">OK</span> |
+| Rechercher un document avec sa date de création              | Les fichiers correspondants à la date recherchée restent dans la liste | 14 déc. | Les fichiers  correspondants restent dans la liste,sans filtre | <span style="color:green;">OK</span> |
+| Rechercher des fichiers avec le nom de l'auteur              | Les fichiers correspondants à l'auteur recherchée restent dans la liste | 14 déc. | Résultat satisfaisant                                        | <span style="color:green;">OK</span> |
+
+### Consommation
+
+![ConsoRam](P:\MAW1.1\Documentation\Screenshots\ConsoRam.PNG)
 
 ## Conclusion
 
 ### Bilan Maquette/Produit final
+![maq_3](P:\MAW1.1\Documentation\Maquette\maq_3.PNG)
+![MainApp](..\Documentation\Screenshots\SearchWindow.PNG)
 
-TODO -> ajouter screen de chaque partie;
-
-De manière générale, nous avons plutot bien respécté notre maquette. On peut remarquer une différence nette principalement sur le liste de résultats ainsi que la prévisualisation des fichiers. Cette différence est due au fait que nous ne maîtrisons pas le xaml qui fait que nous avons fait au plus simple. Nous trouvons tout de même que le résultat final se défend bien, l'espace est bien utilisé.
+De manière générale, nous avons plutôt bien respecté notre maquette. On peut remarquer une différence nette principale sur le liste de résultats ainsi que la prévisualisation des fichiers. Cette différence est due au fait que nous ne maîtrisons pas bien le XAML, nous avons donc fait au plus simple. Nous trouvons tout de même que le résultat final se défend bien, l'espace est bien utilisé.
 
 On peut remarquer aussi que les collones de la liste de résultat finale ne correspondent pas à la maquette, qui est clairement plus adaptée, plus complète. 
 
 ### Bilan des fonctionnalités demandées
 
-Dans l’ensemble le projet est tout de même bien avancé. Il est vrai qu’une fonctionnalité majeure est manquante et que des améliorations sont possibles. Le problème principal pour moi a été le temps. J’ai perdu pas mal de temps avec les fonctions qui affichent le planning, car c’était d’une grande difficulté. J’ai aussi perdu un peu de temps avec la première librairie que je voulais utiliser pour générer les PDF, mais j’ai pu trouver une alternative et faire fonctionner le tout, avec difficulté. 
-
-TODO -> check 
+Dans l’ensemble le projet est tout de même bien avancé. Il est vrai que des améliorations sont possibles. Nous avons pris beaucoup de temps pour développer les fonctions de recherche, principalement avec les filtres Word & PDF qui nécessitaient des librairies spécifiques. Nous avons perdu un peu de temps avec la première librairie (FreeSpire) que nous voulions utiliser pour générer les PDF, que nous n'avons pas utilisée car elle était payante pour ses fonctionnalité PDF avancé. 
 
 ### Bilan de la planification
 
 Nous pensons avoir correctement suivi le planning. On a notamment perdu du temps sur l’analyse et sur le développement du de la recherche qui est la fonction qui nous a pris le plus de temps. 
 
-De plus, nous avons rencontré des problèmes avec git, dus à de mauvaises manipulation
+De plus, nous avons rencontré des problèmes avec git, dus à de mauvaises manipulation et des conflits de merge.
 
 ## Sources
 
