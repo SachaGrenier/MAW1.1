@@ -6,16 +6,20 @@
         xmlns:local="clr-namespace:FilesFinder"
         mc:Ignorable="d"
         Title="FileFinder" Height="450" Width="850" MinWidth="850" MinHeight="450">
+    <Window.Resources>
+        <local:UriToBitmapConverter x:Key="UriToBitmapConverter" />
+    </Window.Resources>
+
     <Grid Height="Auto" Width="Auto">
         <Grid Height="Auto" Width="Auto" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" Background="#7cadf1" Margin="0,0,0,0" Grid.ColumnSpan="3" Height="Auto" >
                 <Label Margin="10,0,0,0" Height="23" Name="Label1">
-                    Current File:
+                    Repértoire source:
                 </Label>
-                <Button Margin="5,25,0,20" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Browse folder" RenderTransformOrigin="1.237,0.921">
+                <Button Margin="5,25,0,20" x:Name="BrowseThumbnailButton" Width="114" Click="BrowseButton_Click" Content="Parcourir" RenderTransformOrigin="1.237,0.921">
                     <!--  -->
                 </Button>
-                <TextBox HorizontalAlignment="Right" Margin="30,10,0,0"
+                <TextBox HorizontalAlignment="Right" Margin="25,10,0,0"
                 x:Name="txtNameToSearch" TextChanged="txtNameToSearch_TextChanged" Width="200" Height="30"  RenderTransformOrigin="-0.657,0.25" />
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="10,39,0,18">
                     <RadioButton GroupName="Filter" Content="Tout" IsChecked="True" Checked="RadioButton_Checked"/>
@@ -38,23 +42,28 @@
             </Grid.RowDefinitions>
 
             <DataGrid SelectionMode="Single" AlternatingRowBackground="#f0f0f0" AlternationCount="2"  IsReadOnly="True" Name="FileList" Margin="10,10,10,28" ItemsSource="{Binding FileList}" Grid.ColumnSpan="2">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Ouvrir l'emplacement du fichier" Click="Row_RightClick" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <Image Height="100" />
+                        <Image Margin="15,0" Grid.Column="8" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="4" Source="{Binding Path, Converter={StaticResource UriToBitmapConverter}}" />
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
                 <DataGrid.ItemContainerStyle>
                     <Style TargetType="DataGridRow">
-                        <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick" />
+                        <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
                     </Style>
                 </DataGrid.ItemContainerStyle>
             </DataGrid>
 <<<<<<< HEAD
-            <TextBox Margin="0,0,100,7" x:Name="NumberArray" Width="Auto" Height="Auto" Text="{Binding NumberArray}" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-
+            <TextBox Margin="0,0,10,7" x:Name="NumberArray" Width="Auto" Height="Auto" Text="{Binding NumberArray}" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+           
 =======
-            <TextBox Margin="0,0,10,5" x:Name="findEl" Width="Auto" Height="Auto" Text="{Binding FileList}" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
->>>>>>> 91334d8a731cf5ae78b606a332327565bacc00b8
+            <TextBox Margin="0,0,100,7" x:Name="NumberArray" Width="Auto" Height="Auto" Text="{Binding NumberArray}" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+>>>>>>> eb2921267f23bbfa8059a8510eb930872fbbf52a
         </Grid>
     </Grid>
 </Window>
