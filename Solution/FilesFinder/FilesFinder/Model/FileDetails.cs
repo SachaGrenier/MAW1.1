@@ -3,8 +3,7 @@
 namespace FilesFinder.Model
 {
   public  class FileDetails
-    {
-      
+    {    
 
         public string filename { get; set; }
 
@@ -15,7 +14,6 @@ namespace FilesFinder.Model
         public string extension { get; set; }
 
         public string folderPath { get; set; }
-
 
     }
 }

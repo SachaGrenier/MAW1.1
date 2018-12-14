@@ -75,7 +75,6 @@ namespace FilesFinder
         {
             NumberArray.Text = num.ToString() + " élément" + (num > 1 ? "s" : "") + " trouvé" + (num > 1 ? "s" : "");
             return num;
-
         }
 
 
@@ -114,6 +113,7 @@ namespace FilesFinder
 
 
         }
+
         //Allows to read inside a PDF to find specific text inside the document
         public string GetPDF(string path)
         {
@@ -506,9 +506,8 @@ namespace FilesFinder
         //Keeps in memory the selected radiobutton, check if there is text in the searchbox and refreshes the datagrid with the returned data
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            // ... Get RadioButton reference.
-            var button = sender as System.Windows.Controls.RadioButton;
-            // ... Display button content as title.
+         
+            var button = sender as System.Windows.Controls.RadioButton;         
             Filter = button.Content.ToString();
             RetrieveList.RadiobuttonKeep = Filter;
             if (RetrieveList.myList != null)
