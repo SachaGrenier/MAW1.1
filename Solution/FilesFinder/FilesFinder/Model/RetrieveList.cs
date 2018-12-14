@@ -27,7 +27,5 @@ namespace FilesFinder
 
         public static string RadiobuttonKeep { get; set; }
 
-
-
     }
 }
