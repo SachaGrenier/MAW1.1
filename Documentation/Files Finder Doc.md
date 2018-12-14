@@ -1,6 +1,6 @@
 
 
-# <img style="float: center; zoom: 35%" src="..\Documentation\logo.png">File Finder
+# <img style="float: center; zoom: 35%" src="..\Documentation\logo.png">Files Finder
 
 <img style="float: left; zoom: 50%" src="..\Documentation\gadget.png">
 
