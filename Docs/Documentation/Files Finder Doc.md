@@ -2,7 +2,7 @@
 
 # <img style="float: center; zoom: 35%" src="../Documentation/logo.png">Files Finder
 
-<img style="float: left; zoom: 50%" src="../Documentation/gadget.png">
+<img style="float: left; zoom: 50%" src="../Documentation/Gadget.png">
 
 > Xavier Schwab et Sacha Grenier
 > Avec la participation de Nicolas Henry
