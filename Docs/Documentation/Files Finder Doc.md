@@ -1,8 +1,8 @@
 
 
-# <img style="float: center; zoom: 35%" src="..\Documentation\logo.png">Files Finder
+# <img style="float: center; zoom: 35%" src="../Documentation/logo.png">Files Finder
 
-<img style="float: left; zoom: 50%" src="..\Documentation\gadget.png">
+<img style="float: left; zoom: 50%" src="../Documentation/gadget.png">
 
 > Xavier Schwab et Sacha Grenier
 > Avec la participation de Nicolas Henry
@@ -42,10 +42,10 @@ Ainsi que les connaissances suivantes :
 ## Planification
 Accéder à la planification GANTT en [cliquant ici](https://github.com/SachaGrenier/MAW1.1/blob/master/Docs/Planification/MAW-grenier-schwab-Plannif-JDT.pdf)
 
-![planif_part1](..\Documentation\planif_part1.png)
-![planif_part1](..\Documentation\planif_part2.png)
-![planif_part1](..\Documentation\planif_part3.png)
-![planif_part1](..\Documentation\planif_part4.png)
+![planif_part1](../Documentation/planif_part1.png)
+![planif_part1](../Documentation/planif_part2.png)
+![planif_part1](../Documentation/planif_part3.png)
+![planif_part1](../Documentation/planif_part4.png)
 
 ## Analyse
 ### Oportunités
@@ -66,31 +66,31 @@ Le but est de créer une application qui permet d’effectuer des recherches ava
 En ce qui concerne le visuel de l’application, nous avons créé des maquettes correspondant à chaque étape de la recherche : 
 
 1. Démarrage de l’application.
-    ![maq_0](..\Documentation\Maquette\maq_0.png)
+    ![maq_0](../Documentation/Maquette/maq_0.png)
 
 2. Sélection du dossier d’où les recherches seront effectuées. Une fois le répertoire sélectionné, l’application se lance.
-    ![maq_1](..\Documentation\Maquette\maq_1.png)
+    ![maq_1](../Documentation/Maquette/maq_1.png)
     <span style='color:orange'>Ce bouton permet de choisir un autre répertoire source</span>
 
 3. Ici, on recherche « documents.docx ». Etant donné qu’il n’existe pas, aucun résultat n’apparait.
-    ![maq_2](..\Documentation\Maquette\maq_2.png)
+    ![maq_2](../Documentation/Maquette/maq_2.png)
 
     <span style='color:orange'>document.docx est recherché mais aucun résultat n'apparaît</span>
 
 4. On recherche maintenant « mondocument » et plusieurs résultats apparaissent. 
-    ![maq_3](..\Documentation\Maquette\maq_3.png)
+    ![maq_3](../Documentation/Maquette/maq_3.png)
 
 5. On applique le filtre documents et on clique sur le document qui nous intéresse. On peut voir à droite qu’une fenêtre avec un aperçu du contenu du document est apparue.
-    ![maq_4](..\Documentation\Maquette\maq_4.png)
+    ![maq_4](../Documentation/Maquette/maq_4.png)
     <span style='color:orange'>L’aperçu du contenu du fichier fonctionnera uniquement avec des documents non formatés. Nous allons essayer de faire en sorte qu’il soit possible d’apercevoir le plus de documents possible. En ce qui concerne les images une miniature sera affichée, pour le reste rien n’est prévu à ce jour.</span>
 
 6. Dernière fonctionnalité, lorsque l’on fait un clic droit sur le document qui nous intéresse, un menu propose d’ouvrir avec soit l’application correspondant à l’extension soit l’explorateur Windows avec l’emplacement du fichier.
-    ![maq_5](..\Documentation\Maquette\maq_5.png)
+    ![maq_5](../Documentation/Maquette/maq_5.png)
 #### Architecture
 
 En ce qui concerne l’architecture de nos méthodes, le schéma
 est plutôt simple :
-![archi](..\Documentation\archi.png)
+![archi](../Documentation/archi.png)
 
 ### Conception des tests
 Nos tests vont être effectués suivant une grille qui comportera les colonnes suivantes :
@@ -137,17 +137,17 @@ Accès direct au répertoire Git : [Cliquer ici](http://www.github.com/SachaGren
 L’utilisation que nous avons fait de git n’était pas vraiment cohérente. Nous l’utilisons principalement pour pouvoir être plusieurs à coder sur le même fichier sans que cela pose des problèmes d’enregistrements. De ce fait nous avons chacun notre branche sur laquelle nous travaillons, et avec laquelle nous implémentons des fonctionnalités, des
 éléments de l’application. Voici un schéma qui représente l’utilisation de nos branches :
 
-![gitflow](..\Documentation\gitflow.PNG)
+![gitflow](../Documentation/gitflow.PNG)
 
 Au total, plus de 100 commits ont été effectués, avec la participation des 3 développeurs :
 
-![git_commits](..\Documentation\Screenshots\git_commits.PNG)
+![git_commits](../Documentation/Screenshots/git_commits.PNG)
 
 > [Voir en temps réel](https://github.com/SachaGrenier/MAW1.1/graphs/contributors)
 
 #### Trello
 
-![trello_preview](..\Documentation\trello_preview.png)
+![trello_preview](../Documentation/trello_preview.png)
 
 L'application Trello ne nous a pas vraiment été utile durant le projet. A part les quelques fois où nous l'avons utilisée pour savoir ou nous en étions, elle à été pas mal délaissée. [Voir Trello](https://trello.com/b/T5stisYp/maw11)
 
@@ -164,7 +164,7 @@ NuGet installé par nos soins qui nous a ajouté des fonctionnalités permettant
 ## Fonctionnalités
 ### Rechercher
 
-![app_open](..\Documentation\Screenshots\app_open.PNG)
+![app_open](../Documentation/Screenshots/app_open.PNG)
 
 Pour récupérer le chemin à partir duquel l'utilisateur souhaite rechercher ses fichiers, une petite interface apparaît lorsque on lance l'application. 
 
@@ -192,11 +192,11 @@ Voici la méthode makeList() que nous utilisons pour remplir les modèles avec l
 
 Voici la classe que nous utilisons pour utiliser LinQ :
 
-![AllowLinq](..\Documentation\Screenshots\AllowLinq.PNG)
+![AllowLinq](../Documentation/Screenshots/AllowLinq.PNG)
 
 Voici un exemple d'une recherche utilisant LinQ. 
 
-![Linq_ABC](..\Documentation\Screenshots\Linq_ABC.PNG)Cette requête est utilisée lorsque le filtre "Word" est activé.
+![Linq_ABC](../Documentation/Screenshots/Linq_ABC.PNG)Cette requête est utilisée lorsque le filtre "Word" est activé.
 
 * <span style="color:orange">A</span> Vérifie que le filtre Word soit activé
 * <span style="color:orange">B</span> Requête LinQ qui permet de rechercher tous les fichiers Word ainsi que leur contenu si l'élément à une correspondance
@@ -206,7 +206,7 @@ Nous utilisons donc des fonctions offertes par LinQ tel que "where" ou "select" 
 
 ### Filtrer
 
-![filterz](..\Documentation\Screenshots\filterz.PNG)
+![filterz](../Documentation/Screenshots/filterz.PNG)
 
 Les filtres sont affichés sous forme de boutons radio. Lorsque l'on clique sur une option, la liste de résultats se met à jour avec les nouvelles données.
 
@@ -240,13 +240,13 @@ Classes implémentées dans notre projet :
 
 La liste de résultats se met à jour après n'importe quel nouvelle lettre tapée, ou lorsque le filtre est changé. Pour l'implémentation des données dans le tableau nous avons utilisé un DataGrid. La quantité de résultats est affichée en bas à droite.
 
-> ![datagrid_example](..\Documentation\Screenshots\datagrid_example.png)
+> ![datagrid_example](../Documentation/Screenshots/datagrid_example.png)
 
 Ceci est un exemple de DataGrid et les possibilités qu'il propose. Très pratique à utiliser car le type de source de données demandé est exactement celui que nous utilisons pour retourner les résultats de la recherche.
 
 Voici à quoi ressemble notre liste de résultats
 
-![MainApp](..\Documentation\Screenshots\MainApp.PNG)
+![MainApp](../Documentation/Screenshots/MainApp.PNG)
 
 
 
@@ -254,7 +254,7 @@ Voici à quoi ressemble notre liste de résultats
 
 Nous offrons la possibilité soit d'ouvrir le dossier source du fichier sélectionné, soit d'ouvrir le fichier avec le programme par défaut  
 
-Le clic droit permet d'ourvir le dossier source :![right_click](..\Documentation\Screenshots\right_click.png)
+Le clic droit permet d'ourvir le dossier source :![right_click](../Documentation/Screenshots/right_click.png)
 
 Le double clic gauche permet ouverture du fichier avec le programme par défaut.
 
@@ -313,15 +313,15 @@ Lancez ensuite FilesFinder.exe dans le dossier Application. Il est possible que 
 
 
 
-![ConsoRam](..\Documentation\Screenshots\ConsoRam.PNG)
+![ConsoRam](../Documentation/Screenshots/ConsoRam.PNG)
 
 > Nous pouvons remarquer que la consommation de RAM ainsi que la charge CPU sont linéaires et modestes
 
 ## Conclusion
 
 ### Bilan Maquette/Produit final
-![maq_3](..\Documentation\Maquette\maq_3.PNG)
-![MainApp](..\Documentation\Screenshots\SearchWindow.PNG)
+![maq_3](../Documentation/Maquette/maq_3.PNG)
+![MainApp](../Documentation/Screenshots/SearchWindow.PNG)
 
 De manière générale, nous avons plutôt bien respecté notre maquette. On peut remarquer une différence nette principale sur le liste de résultats ainsi que la prévisualisation des fichiers. Cette différence est due au fait que nous ne maîtrisons pas bien le XAML, nous avons donc fait au plus simple. Nous trouvons tout de même que le résultat final se défend bien, l'espace est bien utilisé.
 
